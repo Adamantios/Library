@@ -22,7 +22,7 @@ typedef struct node {
 } node;
 
 typedef struct list {
-    node head;
+    node *head;
     int size;
 } list;
 
@@ -42,7 +42,7 @@ list load(char *filename, list bList); //ανάκτηση λίστας βιβλ�
 
 void save(char *filename, list bList); //αποθήκευση λίστας βιβλίων στο αρχείο
 
-int addBook(book b, list bList);
+int addBook(book b, list *bList);
 
 book findBook(book b, list bList); //αναζήτηση με βάση το b->id
 
