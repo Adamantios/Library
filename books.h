@@ -40,14 +40,14 @@ void print(book b);
 
 list load(char *filename, list bList); //ανάκτηση λίστας βιβλίων από αρχείο
 
-void save(char *filename, list bList); //αποθήκευση λίστας βιβλίων στο αρχείο
+void save(char *filename, list *bList); //αποθήκευση λίστας βιβλίων στο αρχείο
 
 int addBook(book b, list *bList);
 
-book findBook(book b, list bList); //αναζήτηση με βάση το b->id
+book findBook(book b, list *bList); //αναζήτηση με βάση το b->id
 
-int deleteBook(book b, list bList); //διαγραφή με βάση το b->id
+int deleteBook(book b, list *bList); //διαγραφή με βάση το b->id
 
-int updateBook(book b, list bList); //ανανέωση με βάση το b->id
+int updateBook(book b, list *bList); //ανανέωση με βάση το b->id
 
 #endif //LIBRARY_BOOKS_H
