@@ -34,9 +34,9 @@ list create_list() {
     return *list;
 }
 
-void printMenu();
+void printMenu(list *bList);
 
-void print(book b);
+void print(book b, list *bList);
 
 list load(char *filename, list bList); //ανάκτηση λίστας βιβλίων από αρχείο
 
