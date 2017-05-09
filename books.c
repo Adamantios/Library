@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include "books.h"
 
-void save(char *filename, list bList) {
-    FILE *file = fopen(filename, "a");
+void printMenu() {
 
-    if (file != NULL) {
-        fwrite(&bList, sizeof(book), 1, file);
-        fclose(file);
-    }
+}
+
+void print(book b) {
+
 }
 
 list load(char *filename, list bList) {
@@ -19,4 +18,30 @@ list load(char *filename, list bList) {
     }
 
     return bList;
+}
+
+void save(char *filename, list bList) {
+    FILE *file = fopen(filename, "a");
+
+    if (file != NULL) {
+        fwrite(&bList, sizeof(book), 1, file);
+        fclose(file);
+    }
+}
+
+int addBook(book b, list bList) {
+    return 0;
+}
+
+book findBook(book b, list bList) {
+    book result;
+    return result;
+}
+
+int deleteBook(book b, list bList) {
+    return 0;
+}
+
+int updateBook(book b, list bList) {
+    return 0;
 }
