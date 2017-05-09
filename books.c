@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "books.h"
 
 void printMenu() {
@@ -30,6 +31,28 @@ void save(char *filename, list bList) {
 }
 
 int addBook(book b, list bList) {
+    // allocate memory for the new book.
+    list *newBook = (list *) malloc(sizeof(list));
+
+    // in case of failure print an error message and finish program with exit code -1.
+    if (newBook == NULL) {
+        fprintf(stderr, "Unable to allocate memory for a new book.\n");
+        exit(-1);
+    }
+
+    // create the new book.
+    newBook->book = b;
+    newBook->next = NULL;
+
+    list *current = &bList;
+
+    // move at the end of the list.
+    while (current->next != NULL)
+        current = current->next;
+
+    // add the new node at the end of the list.
+    current->next = newBook;
+
     return 0;
 }
 
