@@ -26,13 +26,7 @@ typedef struct list {
     int size;
 } list;
 
-list create_list() {
-    list *list = (list *) malloc(sizeof(list));
-    list->head = NULL;
-    list->size = 0;
-
-    return *list;
-}
+list create_list();
 
 void printMenu(list *bList);
 
