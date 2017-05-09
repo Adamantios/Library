@@ -19,7 +19,20 @@ typedef struct book {
 typedef struct node {
     book book;
     struct node *next;
+} node;
+
+typedef struct list {
+    node head;
+    int size;
 } list;
+
+list create_list() {
+    list *list = (list *) malloc(sizeof(list));
+    list->head = NULL;
+    list->size = 0;
+
+    return *list;
+}
 
 void printMenu();
 
