@@ -7,6 +7,7 @@ list create_list() {
     list->head = NULL;
     list->size = 0;
 
+    uniqueId = 0;
     bListHead = list->head;
 
     return list;

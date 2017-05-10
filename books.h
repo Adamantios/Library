@@ -26,8 +26,8 @@ typedef struct list {
     int size;
 } *list;
 
-int uniqueId = 0;
-node *bListHead = NULL;
+int uniqueId;
+node *bListHead;
 
 list create_list();
 
