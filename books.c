@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "books.h"
 
 list create_list() {
@@ -28,9 +29,14 @@ const char *getGenreString(genres genre) {
 
 void printReviews(char reviews[MAXREVIEWS][MAXSTRING]) {
     printf("Reviews: ");
+    char *customTab = "         ";
+    int i = 0;
 
-    for (int i = 0; i < MAXREVIEWS; ++i) {
-        printf("%i: %s\n", i, reviews[i]);
+    while (i < MAXREVIEWS && strcmp(reviews[i], "")) {
+        if (i != 0)
+            printf("%s", customTab);
+
+        printf("| %i) %s\n", ++i, reviews[i]);
     }
 }
 
