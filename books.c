@@ -3,7 +3,7 @@
 #include "books.h"
 
 list create_list() {
-    list list = (list) malloc(sizeof(list));
+    list list = malloc(sizeof(list));
     list->head = NULL;
     list->size = 0;
 
