@@ -98,7 +98,7 @@ void startTesting(char *filename) {
 
     // check the file's content.
     printf("Printing all the available books...\n");
-//  TODO printMenu(); after fixing the file management.
+    printMenu();
 
     // test the functions.
     addBookTest(filename, bList);

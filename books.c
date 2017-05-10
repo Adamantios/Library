@@ -63,6 +63,7 @@ void print(book b) {
 }
 
 list load(char *filename) {
+//    TODO correct function
     FILE *file = fopen(filename, "rb");
     list bList = create_list();
 
@@ -81,6 +82,7 @@ list load(char *filename) {
 }
 
 void save(char *filename, list bList) {
+    //    TODO correct function
     FILE *file = fopen(filename, "wb");
 
     if (file != NULL) {
@@ -146,5 +148,6 @@ int deleteBook(book b, list bList) {
 }
 
 int updateBook(book b, list bList) {
+//    TODO
     return 0;
 }
