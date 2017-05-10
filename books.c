@@ -47,6 +47,9 @@ void printMenu() {
     node *current = *bListHead;
     int counter = 1;
 
+    if (current == NULL)
+        printf("There are no books currently available!\n");
+
     while (current != NULL) {
         printf("-------------\nBook number %d\n-------------\n", counter);
         print(current->book);
