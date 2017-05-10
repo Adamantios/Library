@@ -9,7 +9,7 @@ list create_list() {
     list->size = 0;
 
     uniqueId = 0;
-    bListHead = list->head;
+    bListHead = &list->head;
 
     return list;
 }
@@ -41,7 +41,7 @@ void printReviews(char reviews[MAXREVIEWS][MAXSTRING]) {
 }
 
 void printMenu() {
-    node *current = bListHead;
+    node *current = *bListHead;
 
     while (current != NULL) {
         print(current->book);

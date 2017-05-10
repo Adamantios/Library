@@ -27,7 +27,7 @@ typedef struct list {
 } *list;
 
 int uniqueId;
-node *bListHead;
+node **bListHead;
 
 list create_list();
 
