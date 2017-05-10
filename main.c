@@ -21,6 +21,7 @@ void firstTest(char *filename, list bList) {
     save(filename, bList);
 
     // print the book menu.
+    printf("Printing all the available books after adding My Book...\n");
     printMenu();
 }
 
