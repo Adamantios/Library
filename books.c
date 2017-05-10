@@ -37,7 +37,7 @@ void printMenu() {
     node *current = bListHead;
 
     while (current != NULL) {
-        printf("%s\n", current->book);
+        print(current->book);
         current = current->next;
     }
 }
