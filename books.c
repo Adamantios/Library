@@ -38,12 +38,17 @@ void printReviews(char reviews[MAXREVIEWS][MAXSTRING]) {
 
         printf("| %i) %s\n", ++i, reviews[i]);
     }
+
+    if (i == 0)
+        printf("There are no reviews currently for this book.\n");
 }
 
 void printMenu() {
     node *current = *bListHead;
+    int counter = 1;
 
     while (current != NULL) {
+        printf("-------------\nBook number %d\n-------------\n", counter);
         print(current->book);
         current = current->next;
     }
