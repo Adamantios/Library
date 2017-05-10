@@ -104,7 +104,7 @@ book findBook(book b, list bList) {
     if (currentBook != NULL)
         return currentBook->book;
     else
-        return NULL;
+        return b;
 }
 
 int deleteBook(book b, list bList) {
