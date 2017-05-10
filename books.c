@@ -2,37 +2,83 @@
 #include <stdlib.h>
 #include "books.h"
 
-void printMenu() {
+list create_list() {
+    list list = (list) malloc(sizeof(list));
+    list->head = NULL;
+    list->size = 0;
 
+    bListHead = list->head;
+
+    return list;
+}
+
+const char *getGenreString(genres genre) {
+    switch (genre) {
+        case FICTION:
+            return "Fiction";
+        case SCIENTIFIC:
+            return "Scientific";
+        case POLITICS:
+            return "Politics";
+        default:
+            return "Not Specified";
+    }
+}
+
+void printReviews(char reviews[MAXREVIEWS][MAXSTRING]) {
+    printf("Reviews: ");
+
+    for (int i = 0; i < MAXREVIEWS; ++i) {
+        printf("%i: %s\n", i, reviews[i]);
+    }
+}
+
+void printMenu() {
+    node *current = bListHead;
+
+    while (current != NULL) {
+        printf("%s\n", current->book);
+        current = current->next;
+    }
 }
 
 void print(book b) {
-
+    printf("Author: %s\nTitle: %s\nGenre: %s\n", b.author, b.title, getGenreString(b.genre));
+    printReviews(b.reviews);
 }
 
-list load(char *filename, list bList) {
-    FILE *file = fopen(filename, "r");
+list load(char *filename) {
+    FILE *file = fopen(filename, "rb");
+    list bList = create_list();
+    book *newBook = (book *) malloc(sizeof(book));
 
-    if (file != NULL) {
-        fread(&bList, sizeof(book), 1, file);
-        fclose(file);
+    while (!feof(file)) {
+        fread(newBook, sizeof(book), 1, file);
+        addBook(*newBook, bList);
     }
 
+    fclose(file);
     return bList;
 }
 
 void save(char *filename, list bList) {
-    FILE *file = fopen(filename, "a");
+    FILE *file = fopen(filename, "ab");
 
     if (file != NULL) {
+        for (int i = 0; i < bList->size; ++i)
+            fwrite(&bList[i], sizeof(book), 1, file);
+
         fwrite(&bList, sizeof(book), 1, file);
         fclose(file);
     }
 }
 
 int addBook(book b, list bList) {
+    // assign a unique id to the book.
+    b.id = uniqueId++;
+
     // allocate memory for the new book.
-    list *newBook = (list *) malloc(sizeof(list));
+    node *newBook = (node *) malloc(sizeof(node));
 
     // in case of failure print an error message and finish program with exit code -1.
     if (newBook == NULL) {
@@ -42,27 +88,41 @@ int addBook(book b, list bList) {
 
     // create the new book.
     newBook->book = b;
-    newBook->next = NULL;
-
-    list *current = &bList;
-
-    // move at the end of the list.
-    while (current->next != NULL)
-        current = current->next;
-
-    // add the new node at the end of the list.
-    current->next = newBook;
+    newBook->next = bList->head;
+    bList->head = newBook;
+    bList->size++;
 
     return 0;
 }
 
 book findBook(book b, list bList) {
-    book result;
-    return result;
+    node *currentBook = bList->head;
+
+    while (currentBook != NULL && currentBook->book.id != b.id)
+        currentBook = currentBook->next;
+
+    if (currentBook != NULL)
+        return currentBook->book;
+    else
+        return NULL;
 }
 
 int deleteBook(book b, list bList) {
-    return 0;
+    node *previousBook = bList->head;
+    node *currentBook = bList->head;
+
+    while (currentBook != NULL && currentBook->book.id != b.id) {
+        previousBook = currentBook;
+        currentBook = currentBook->next;
+    }
+
+    if (currentBook != NULL) {
+        previousBook->next = currentBook->next;
+        free(currentBook);
+        return 0;
+    }
+
+    return 1;
 }
 
 int updateBook(book b, list bList) {
