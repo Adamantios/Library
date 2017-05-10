@@ -51,14 +51,18 @@ void print(book b) {
 list load(char *filename) {
     FILE *file = fopen(filename, "rb");
     list bList = create_list();
-    book *newBook = (book *) malloc(sizeof(book));
 
-    while (!feof(file)) {
-        fread(newBook, sizeof(book), 1, file);
-        addBook(*newBook, bList);
+    if (file != NULL) {
+        book *newBook = (book *) malloc(sizeof(book));
+
+        while (!feof(file)) {
+            fread(newBook, sizeof(book), 1, file);
+            addBook(*newBook, bList);
+        }
+
+        fclose(file);
     }
 
-    fclose(file);
     return bList;
 }
 
@@ -71,7 +75,8 @@ void save(char *filename, list bList) {
 
         fwrite(&bList, sizeof(book), 1, file);
         fclose(file);
-    }
+    } else
+        printf("An error occurred while trying to save your books at %s!", filename);
 }
 
 int addBook(book b, list bList) {
