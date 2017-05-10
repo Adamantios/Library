@@ -54,7 +54,7 @@ void startTesting(char *filename) {
 
     // check the file's content.
     printf("Printing all the available books...\n");
-    printMenu();
+//  TODO printMenu(); after fixing the file management.
 
     // test the functions.
     addBookTest(filename, bList);
