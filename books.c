@@ -45,13 +45,13 @@ void printReviews(char reviews[MAXREVIEWS][MAXSTRING]) {
 
 void printMenu() {
     node *current = *bListHead;
-    int counter = 1;
+    int counter = 0;
 
     if (current == NULL)
         printf("There are no books currently available!\n");
 
     while (current != NULL) {
-        printf("-------------\nBook number %d\n-------------\n", counter);
+        printf("-------------\nBook number %d\n-------------\n", ++counter);
         print(current->book);
         current = current->next;
     }
