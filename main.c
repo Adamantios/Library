@@ -3,10 +3,7 @@
 #include <string.h>
 #include "books.h"
 
-void startTesting(char *filename) {
-    // create a book list. It will be empty if the filename is empty or does not exist.
-    list bList = load(filename);
-
+void firstTest(list bList) {
     // allocate memory for a new book.
     book *newBook = (book *) malloc(sizeof(book));
 
@@ -22,6 +19,13 @@ void startTesting(char *filename) {
 
     // print the book menu.
     printMenu();
+}
+
+void startTesting(char *filename) {
+    // create a book list. It will be empty if the filename is empty or does not exist.
+    list bList = load(filename);
+
+    firstTest(bList);
 }
 
 int main(int argc, char *argv[]) {
