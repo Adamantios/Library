@@ -17,7 +17,7 @@ typedef struct book {
 } book;
 
 typedef struct node {
-    book book;
+    struct book book;
     struct node *next;
 } node;
 
