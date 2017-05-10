@@ -17,7 +17,7 @@ void addBookTest(char *filename, list bList) {
     // add the new book at the book list.
     addBook(*newBook, bList);
 
-    // initialise the new book with different values.
+    // initialise a second book.
     strcpy(newBook->author, "Someone");
     strcpy(newBook->title, "His Book");
     newBook->genre = FICTION;
@@ -26,7 +26,7 @@ void addBookTest(char *filename, list bList) {
     strcpy(newBook->reviews[2], "Third Review.");
     strcpy(newBook->reviews[3], "Fourth Review.");
 
-    // add the new book at the book list.
+    // add the second book at the book list.
     addBook(*newBook, bList);
 
     // save changes to the file.
