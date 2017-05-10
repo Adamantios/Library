@@ -30,6 +30,8 @@ list create_list();
 
 const char *getGenre(genres genre);
 
+char *printReviews(char reviews[MAXREVIEWS][MAXSTRING]);
+
 void printMenu();
 
 void print(book b);
