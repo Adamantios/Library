@@ -26,6 +26,9 @@ typedef struct list {
     int size;
 } *list;
 
+int uniqueId = 0;
+node *bListHead = NULL;
+
 list create_list();
 
 const char *getGenreString(genres genre);
