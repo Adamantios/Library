@@ -28,6 +28,8 @@ typedef struct list {
 
 list create_list();
 
+const char *getGenre(genres genre);
+
 void printMenu();
 
 void print(book b);
