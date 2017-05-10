@@ -81,7 +81,7 @@ list load(char *filename) {
 }
 
 void save(char *filename, list bList) {
-    FILE *file = fopen(filename, "ab");
+    FILE *file = fopen(filename, "wb");
 
     if (file != NULL) {
         for (int i = 0; i < bList->size; ++i)
