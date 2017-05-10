@@ -3,7 +3,7 @@
 #include <string.h>
 #include "books.h"
 
-void firstTest(char *filename, list bList) {
+void addBookTest(char *filename, list bList) {
     // allocate memory for a new book.
     book *newBook = (book *) malloc(sizeof(book));
 
@@ -25,6 +25,18 @@ void firstTest(char *filename, list bList) {
     printMenu();
 }
 
+void findBookTest(char *filename, list pList) {
+
+}
+
+void deleteBookTest(char *filename, list pList) {
+
+}
+
+void updateBookTest(char *filename, list pList) {
+
+}
+
 void startTesting(char *filename) {
     // create a book list. It will be empty if the filename is empty or does not exist.
     list bList = load(filename);
@@ -33,7 +45,11 @@ void startTesting(char *filename) {
     printf("Printing all the available books...\n");
     printMenu();
 
-    firstTest(filename, bList);
+    // test the functions.
+    addBookTest(filename, bList);
+    findBookTest(filename, bList);
+    deleteBookTest(filename, bList);
+    updateBookTest(filename, bList);
 }
 
 int main(int argc, char *argv[]) {
