@@ -25,8 +25,19 @@ void addBookTest(char *filename, list bList) {
     printMenu();
 }
 
-void findBookTest(char *filename, list pList) {
+void findBookTest(list pList) {
+    // allocate memory for the book.
+    book *bookToSearch = (book *) malloc(sizeof(book));
 
+    // set the books id to 1.
+    bookToSearch->id = 1;
+
+    // find the book with id 1 from the list.
+    *bookToSearch = findBook(*bookToSearch, pList);
+
+    // print the book that was found.
+    printf("Printing the book with id 1...\n");
+    print(*bookToSearch);
 }
 
 void deleteBookTest(char *filename, list pList) {
@@ -47,7 +58,7 @@ void startTesting(char *filename) {
 
     // test the functions.
     addBookTest(filename, bList);
-    findBookTest(filename, bList);
+    findBookTest(bList);
     deleteBookTest(filename, bList);
     updateBookTest(filename, bList);
 }
