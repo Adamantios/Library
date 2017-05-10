@@ -24,11 +24,11 @@ typedef struct node {
 typedef struct list {
     node *head;
     int size;
-} list;
+} *list;
 
 list create_list();
 
-const char *getGenre(genres genre);
+const char *getGenreString(genres genre);
 
 void printReviews(char reviews[MAXREVIEWS][MAXSTRING]);
 
