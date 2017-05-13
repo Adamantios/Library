@@ -16,12 +16,12 @@ void showMenu() {
 
 int yesOrNo() {
     printf("Press Y for yes or N for no: ");
-    int choice;
-    choice = getchar();
+    char choice;
+    scanf("%c", &choice);
 
     while (choice != 'N' && choice != 'Y') {
         printf("Unknown command! Please press Y for yes and N for no: ");
-        choice = getchar();
+        scanf("%c", &choice);
     }
 
     return choice == 'Y' ? 1 : 0;
