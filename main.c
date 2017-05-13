@@ -126,7 +126,7 @@ void executeCommands(char *filename, list bList) {
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
-                printf("There is no book with the id that you have provided!");
+                printf("There is no book with the id that you have provided!\n");
                 break;
             }
 
@@ -151,7 +151,7 @@ void executeCommands(char *filename, list bList) {
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
-                printf("There is no book with the id that you have provided!");
+                printf("There is no book with the id that you have provided!\n");
                 break;
             }
 
@@ -200,7 +200,7 @@ void executeCommands(char *filename, list bList) {
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
-                printf("There is no book with the id that you have provided!");
+                printf("There is no book with the id that you have provided!\n");
                 break;
             }
 
