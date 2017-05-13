@@ -148,6 +148,14 @@ int deleteBook(book b, list bList) {
 }
 
 int updateBook(book b, list bList) {
-//    TODO
-    return 0;
+    node *currentBook = bList->head;
+
+    while (currentBook != NULL && currentBook->book.id != b.id)
+        currentBook = currentBook->next;
+
+    if (currentBook != NULL) {
+        currentBook->book = b;
+        return 0;
+    } else
+        return 1;
 }
