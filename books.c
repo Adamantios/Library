@@ -68,7 +68,7 @@ list load(char *filename) {
     list bList = create_list();
 
     if (file != NULL) {
-        book *newBook = (book *) malloc(sizeof(book));
+        book *newBook = malloc(sizeof(book));
 
         while (!feof(file)) {
             fread(newBook, sizeof(book), 1, file);
@@ -100,7 +100,7 @@ int addBook(book b, list bList) {
     b.id = ++uniqueId;
 
     // allocate memory for the new book.
-    node *newBook = (node *) malloc(sizeof(node));
+    node *newBook = malloc(sizeof(node));
 
     // in case of failure print an error message and return 1.
     if (newBook == NULL) {
