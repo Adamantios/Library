@@ -40,24 +40,6 @@ void addBookTest(char *filename, list bList) {
     printMenu();
 }
 
-void findBookTest(list bList) {
-    // allocate memory for the book.
-    book *bookToSearch = (book *) malloc(sizeof(book));
-
-    // set the book's id to 1.
-    bookToSearch->id = 1;
-
-    // find the book with id 1 from the list.
-    *bookToSearch = findBook(*bookToSearch, bList);
-
-    // free the memory for the book.
-    free(bookToSearch);
-
-    // print the book that was found.
-    printf("Printing the book with id 1...\n");
-    print(*bookToSearch);
-}
-
 void deleteBookTest(char *filename, list bList) {
     // allocate memory for the book.
     book *bookToDelete = (book *) malloc(sizeof(book));
@@ -85,11 +67,10 @@ void showMenu() {
     printf("Available commands:\n");
     printf("1: Create a new book.\n");
     printf("2: Delete a book.\n");
-    printf("3: Search for a book.\n");
-    printf("4: Update a book.\n");
-    printf("5: Print a book's information.\n");
-    printf("6: Print the book menu.\n");
-    printf("7: Exit.\n");
+    printf("3: Update a book.\n");
+    printf("4: Print a book's information.\n");
+    printf("5: Print the book menu.\n");
+    printf("6: Exit.\n");
     printf("Please insert a number in order to run a command.\n");
 }
 
@@ -107,7 +88,49 @@ int yesOrNo() {
 }
 
 genres readGenre() {
-    printf("Please give a new genre for the book: ");
+    printf("Available Genres:\n");
+    printf("1: Fiction\n");
+    printf("2: Scientific\n");
+    printf("3: Politics\n");
+    printf("Please choose one of the available genres for the book, by inserting it's number: ");
+
+    int genre;
+    scanf("%d", &genre);
+
+    while (genre < 1 || genre > 3) {
+        printf("Unknown genre!\nPlease try inserting one of the available genres.\n");
+        scanf("%d", &genre);
+    }
+
+    switch (genre) {
+        case 1:
+            return FICTION;
+        case 2:
+            return SCIENTIFIC;
+        case 3:
+            return POLITICS;
+        default:
+            return FICTION;
+    }
+}
+
+char **readReviews() {
+    char **reviews;
+    reviews = (char **) malloc(sizeof(char *) * MAXREVIEWS);
+    reviews[0] = (char *) malloc(sizeof(char) * MAXSTRING * MAXREVIEWS);
+
+    int reviewsWritten = 0;
+
+    while (reviewsWritten < MAXREVIEWS) {
+        printf("Please write a review:\n    - ");
+        scanf("%s", reviews[reviewsWritten++]);
+        printf("Would you like to write another review?");
+
+        if (!yesOrNo())
+            break;
+    }
+
+    return reviews;
 }
 
 void executeCommands(char *filename, list bList) {
@@ -129,8 +152,6 @@ void executeCommands(char *filename, list bList) {
         case 2:
             delete();
         case 3:
-            search();
-        case 4:
             printf("Please provide the id of the book that you want to update: ");
 
             // allocate memory for the book.
@@ -162,15 +183,12 @@ void executeCommands(char *filename, list bList) {
             }
 
             printf("Would you like to update the book's genre?\n");
-            if (yesOrNo()) {
+            if (yesOrNo())
                 bookToUpdate->genre = readGenre();
-            }
 
             printf("Would you like to update the book's reviews?\n");
-            if (yesOrNo()) {
-                printf("Please give a new genre for the book: ");
-                bookToUpdate->reviews = readReviews();
-            }
+            if (yesOrNo())
+                memcpy(bookToUpdate->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
 
             // update the book from the list.
             if (updateBook(*bookToUpdate, bList))
@@ -181,7 +199,7 @@ void executeCommands(char *filename, list bList) {
 
             // free the memory for the book.
             free(bookToUpdate);
-        case 5:
+        case 4:
             printf("Please provide the id of the book that you want to print: ");
 
             // allocate memory for the book.
@@ -204,9 +222,9 @@ void executeCommands(char *filename, list bList) {
 
             // free the memory for the book.
             free(bookToPrint);
-        case 6:
+        case 5:
             printMenu();
-        case 7:
+        case 6:
             printf("------- Thank you for using HUA Library! -------\n\n");
             printf("------------------------------------------------");
             return;
