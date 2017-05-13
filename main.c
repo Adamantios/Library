@@ -127,32 +127,8 @@ void executeCommands(char *filename, list bList) {
                 break;
             }
 
-            // find the book that the user wants to update.
-            *bookToDelete = findBook(*bookToDelete, bList);
-
-            // ask for the new book's information.
-            printf("Would you like to update the book's author?\n");
-            if (yesOrNo()) {
-                printf("Please give a new Author name: ");
-                scanf("%s", bookToDelete->author);
-            }
-
-            printf("Would you like to update the book's title?\n");
-            if (yesOrNo()) {
-                printf("Please give a new title for the book: ");
-                scanf("%s", bookToDelete->title);
-            }
-
-            printf("Would you like to update the book's genre?\n");
-            if (yesOrNo())
-                bookToDelete->genre = readGenre();
-
-            printf("Would you like to update the book's reviews?\n");
-            if (yesOrNo())
-                memcpy(bookToDelete->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
-
-            // update the book from the list.
-            if (updateBook(*bookToDelete, bList))
+            // delete the book from the list.
+            if (deleteBook(*bookToDelete, bList))
                 printf("Something went wrong while trying to update the book! Please try again.\n");
             else
                 // save changes to the file.
