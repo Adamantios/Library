@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
+#include <malloc.h>
 #include "books.h"
 
 void addBookTest(char *filename, list bList) {
@@ -81,55 +81,140 @@ void deleteBookTest(char *filename, list bList) {
     free(bookToDelete);
 }
 
-void updateBookTest(char *filename, list bList) {
-    // allocate memory for the book.
-    book *bookToUpdate = (book *) malloc(sizeof(book));
-
-    // set the book's id to 2.
-    bookToUpdate->id = 2;
-
-    // change the information of the book.
-    strcpy(bookToUpdate->author, "Someone Else");
-    strcpy(bookToUpdate->title, "The Best Book");
-    bookToUpdate->genre = FICTION;
-    strcpy(bookToUpdate->reviews[0], "First Review.");
-    strcpy(bookToUpdate->reviews[1], "Second Review.");
-    strcpy(bookToUpdate->reviews[2], "Third Review.");
-
-    // update the book with id 2 from the list.
-    if (updateBook(*bookToUpdate, bList))
-        printf("Something went wrong while trying to update the book...\n");
-    else {
-        // save changes to the file.
-        save(filename, bList);
-
-        // print the new book menu.
-        printf("Printing the book menu after updating the book with id 2...\n");
-        printMenu();
-    }
-
-    // free the memory for the book.
-    free(bookToUpdate);
+void showMenu() {
+    printf("Available commands:\n");
+    printf("1: Create a new book.\n");
+    printf("2: Delete a book.\n");
+    printf("3: Search for a book.\n");
+    printf("4: Update a book.\n");
+    printf("5: Print a book's information.\n");
+    printf("6: Print the book menu.\n");
+    printf("7: Exit.\n");
+    printf("Please insert a number in order to run a command.\n");
 }
 
-void startTesting(char *filename) {
+int yesOrNo() {
+    printf("Press Y for yes or N for no.\n");
+    int choice;
+    choice = getchar();
+
+    while (choice != 'N' && choice != 'Y') {
+        printf("Unknown command! Please press Y for yes and N for no.");
+        choice = getchar();
+    }
+
+    return choice == 'Y' ? 1 : 0;
+}
+
+void executeCommands(char *filename, list bList) {
+    showMenu();
+
+    // read the user's command, until it is valid.
+    int command;
+    scanf("%d", &command);
+
+    while (command < 1 || command > 7) {
+        printf("Unknown command!\nPlease try inserting one of the available numbers.\n");
+        scanf("%d", &command);
+    }
+
+    // execute the user's command.
+    switch (command) {
+        case 1:
+            create();
+        case 2:
+            delete();
+        case 3:
+            search();
+        case 4:
+            printf("Please provide the id of the book that you want to update: ");
+
+            // allocate memory for the book.
+            book *bookToUpdate = (book *) malloc(sizeof(book));
+
+            // read the book's id.
+            scanf("%d", &bookToUpdate->id);
+
+            // if the book with the id that the user has provided does not exist, break.
+            if (bookExists(*bookToUpdate, bList)) {
+                printf("There is no book with the id that you have provided!");
+                break;
+            }
+
+            // find the book that the user wants to update.
+            *bookToUpdate = findBook(*bookToUpdate, bList);
+
+            printf("Would you like to update the book's author?\n");
+            int choice = yesOrNo();
+
+            // change the information of the book.
+            strcpy(bookToUpdate->author, "Someone Else");
+            strcpy(bookToUpdate->title, "The Best Book");
+            bookToUpdate->genre = FICTION;
+            strcpy(bookToUpdate->reviews[0], "First Review.");
+            strcpy(bookToUpdate->reviews[1], "Second Review.");
+            strcpy(bookToUpdate->reviews[2], "Third Review.");
+
+            // update the book with id 2 from the list.
+            if (updateBook(*bookToUpdate, bList))
+                printf("Something went wrong while trying to update the book...\n");
+            else {
+                // save changes to the file.
+                save(filename, bList);
+
+                // print the new book menu.
+                printf("Printing the book menu after updating the book with id 2...\n");
+                printMenu();
+            }
+
+            // free the memory for the book.
+            free(bookToUpdate);
+        case 5:
+            printf("Please provide the id of the book that you want to print: ");
+
+            // allocate memory for the book.
+            book *bookToPrint = (book *) malloc(sizeof(book));
+
+            // read the book's id.
+            scanf("%d", &bookToPrint->id);
+
+            // if the book with the id that the user has provided does not exist, break.
+            if (bookExists(*bookToPrint, bList)) {
+                printf("There is no book with the id that you have provided!");
+                break;
+            }
+
+            // get the book with the id that the user has provided.
+            *bookToPrint = findBook(*bookToPrint, bList);
+
+            // print the book.
+            print(*bookToPrint);
+
+            // free the memory for the book.
+            free(bookToPrint);
+        case 6:
+            printMenu();
+        case 7:
+            printf("------- Thank you for using HUA Library! -------\n\n");
+            printf("------------------------------------------------");
+            return;
+    }
+
+    executeCommands(filename, bList);
+}
+
+void startLibraryApp(char *filename) {
     // create a book list. It will be empty if the filename is empty or does not exist.
     list bList = load(filename);
 
-    // check the file's content.
-    printf("Printing all the available books...\n");
-    printMenu();
-
-    // test the functions.
-    addBookTest(filename, bList);
-    findBookTest(bList);
-    deleteBookTest(filename, bList);
-    updateBookTest(filename, bList);
+    printf("------------------------------------------------");
+    printf("------------ Welcome To HUA Library ------------\n\n");
+    executeCommands(filename, bList);
 }
 
 int main(int argc, char *argv[]) {
     if (argc == 2)
-        startTesting(argv[1]);
+        startLibraryApp(argv[1]);
     else if (argc > 2)
         printf("Too many arguments supplied.\n");
     else
