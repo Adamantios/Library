@@ -58,7 +58,7 @@ void printMenu() {
 }
 
 void print(book b) {
-    printf("Author: %s\nTitle: %s\nGenre: %s\n", b.author, b.title, getGenreString(b.genre));
+    printf("Author: %s\nTitle: %s\nGenre: %s\nId: %d\n", b.author, b.title, getGenreString(b.genre), b.id);
     printReviews(b.reviews);
 }
 
@@ -97,7 +97,7 @@ void save(char *filename, list bList) {
 
 int addBook(book b, list bList) {
     // assign a unique id to the book.
-    b.id = uniqueId++;
+    b.id = ++uniqueId;
 
     // allocate memory for the new book.
     node *newBook = (node *) malloc(sizeof(node));
