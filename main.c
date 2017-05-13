@@ -15,12 +15,12 @@ void showMenu() {
 }
 
 int yesOrNo() {
-    printf("Press Y for yes or N for no.\n");
+    printf("Press Y for yes or N for no: ");
     int choice;
     choice = getchar();
 
     while (choice != 'N' && choice != 'Y') {
-        printf("Unknown command! Please press Y for yes and N for no.");
+        printf("Unknown command! Please press Y for yes and N for no: ");
         choice = getchar();
     }
 
@@ -38,7 +38,7 @@ genres readGenre() {
     scanf("%d", &genre);
 
     while (genre < 1 || genre > 3) {
-        printf("Unknown genre!\nPlease try inserting one of the available genres.\n");
+        printf("Unknown genre!\nPlease try inserting one of the available genres: ");
         scanf("%d", &genre);
     }
 
@@ -81,7 +81,7 @@ void executeCommands(char *filename, list bList) {
     scanf("%d", &command);
 
     while (command < 1 || command > 7) {
-        printf("Unknown command!\nPlease try inserting one of the available numbers.\n");
+        printf("Unknown command!\nPlease try inserting one of the available numbers: \n");
         scanf("%d", &command);
     }
 
