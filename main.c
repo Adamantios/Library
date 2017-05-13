@@ -85,130 +85,133 @@ void executeCommands(char *filename, list bList) {
         scanf("%d", &command);
     }
 
+    // declare a book for the commands.
+    book *book;
+
     // execute the user's command.
     switch (command) {
         case 1:
             // allocate memory for the book.
-            book *bookToCreate = (book *) malloc(sizeof(book));
+            book = malloc(sizeof(book));
 
             // ask for the new book's information.
             printf("Please give an Author name: ");
-            scanf("%s", bookToCreate->author);
+            scanf("%s", book->author);
 
             printf("Please give a new title for the book: ");
-            scanf("%s", bookToCreate->title);
+            scanf("%s", book->title);
 
-            bookToCreate->genre = readGenre();
+            book->genre = readGenre();
 
-            memcpy(bookToCreate->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
+            memcpy(book->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
 
             // add the book to the list.
-            if (addBook(*bookToCreate, bList))
+            if (addBook(*book, bList))
                 printf("Something went wrong while trying to create the book! Please try again.\n");
             else
                 // save changes to the file.
                 save(filename, bList);
 
             // free the memory for the book.
-            free(bookToCreate);
+            free(book);
             break;
         case 2:
             printf("Please provide the id of the book that you want to delete: ");
 
             // allocate memory for the book.
-            book *bookToDelete = (book *) malloc(sizeof(book));
+            book = malloc(sizeof(book));
 
             // read the book's id.
-            scanf("%d", &bookToDelete->id);
+            scanf("%d", &book->id);
 
             // if the book with the id that the user has provided does not exist, break.
-            if (bookExists(*bookToDelete, bList)) {
+            if (bookExists(*book, bList)) {
                 printf("There is no book with the id that you have provided!");
                 break;
             }
 
             // delete the book from the list.
-            if (deleteBook(*bookToDelete, bList))
+            if (deleteBook(*book, bList))
                 printf("Something went wrong while trying to update the book! Please try again.\n");
             else
                 // save changes to the file.
                 save(filename, bList);
 
             // free the memory for the book.
-            free(bookToDelete);
+            free(book);
             break;
         case 3:
             printf("Please provide the id of the book that you want to update: ");
 
             // allocate memory for the book.
-            book *bookToUpdate = (book *) malloc(sizeof(book));
+            book = malloc(sizeof(book));
 
             // read the book's id.
-            scanf("%d", &bookToUpdate->id);
+            scanf("%d", &book->id);
 
             // if the book with the id that the user has provided does not exist, break.
-            if (bookExists(*bookToUpdate, bList)) {
+            if (bookExists(*book, bList)) {
                 printf("There is no book with the id that you have provided!");
                 break;
             }
 
             // find the book that the user wants to update.
-            *bookToUpdate = findBook(*bookToUpdate, bList);
+            *book = findBook(*book, bList);
 
             // ask for the new book's information.
             printf("Would you like to update the book's author?\n");
             if (yesOrNo()) {
                 printf("Please give a new Author name: ");
-                scanf("%s", bookToUpdate->author);
+                scanf("%s", book->author);
             }
 
             printf("Would you like to update the book's title?\n");
             if (yesOrNo()) {
                 printf("Please give a new title for the book: ");
-                scanf("%s", bookToUpdate->title);
+                scanf("%s", book->title);
             }
 
             printf("Would you like to update the book's genre?\n");
             if (yesOrNo())
-                bookToUpdate->genre = readGenre();
+                book->genre = readGenre();
 
             printf("Would you like to update the book's reviews?\n");
             if (yesOrNo())
-                memcpy(bookToUpdate->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
+                memcpy(book->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
 
             // update the book from the list.
-            if (updateBook(*bookToUpdate, bList))
+            if (updateBook(*book, bList))
                 printf("Something went wrong while trying to update the book! Please try again.\n");
             else
                 // save changes to the file.
                 save(filename, bList);
 
             // free the memory for the book.
-            free(bookToUpdate);
+            free(book);
             break;
         case 4:
             printf("Please provide the id of the book that you want to print: ");
 
             // allocate memory for the book.
-            book *bookToPrint = (book *) malloc(sizeof(book));
+            book = malloc(sizeof(book));
 
             // read the book's id.
-            scanf("%d", &bookToPrint->id);
+            scanf("%d", &book->id);
 
             // if the book with the id that the user has provided does not exist, break.
-            if (bookExists(*bookToPrint, bList)) {
+            if (bookExists(*book, bList)) {
                 printf("There is no book with the id that you have provided!");
                 break;
             }
 
             // get the book with the id that the user has provided.
-            *bookToPrint = findBook(*bookToPrint, bList);
+            *book = findBook(*book, bList);
 
             // print the book.
-            print(*bookToPrint);
+            print(*book);
 
             // free the memory for the book.
-            free(bookToPrint);
+            free(book);
             break;
         case 5:
             printMenu();
