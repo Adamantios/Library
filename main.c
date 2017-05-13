@@ -3,66 +3,6 @@
 #include <malloc.h>
 #include "books.h"
 
-void addBookTest(char *filename, list bList) {
-    // allocate memory for a new book.
-    book *newBook = (book *) malloc(sizeof(book));
-
-    // initialise the new book.
-    strcpy(newBook->author, "Me");
-    strcpy(newBook->title, "My Book");
-    newBook->genre = FICTION;
-    strcpy(newBook->reviews[0], "First Review.");
-    strcpy(newBook->reviews[1], "Second Review.");
-
-    // add the new book at the book list.
-    addBook(*newBook, bList);
-
-    // save changes to the file.
-    save(filename, bList);
-
-    // initialise a second book.
-    strcpy(newBook->author, "Someone");
-    strcpy(newBook->title, "His Book");
-    newBook->genre = FICTION;
-    strcpy(newBook->reviews[0], "First Review.");
-    strcpy(newBook->reviews[1], "Second Review.");
-    strcpy(newBook->reviews[2], "Third Review.");
-    strcpy(newBook->reviews[3], "Fourth Review.");
-
-    // add the second book at the book list.
-    addBook(*newBook, bList);
-
-    // save changes to the file.
-    save(filename, bList);
-
-    // print the book menu.
-    printf("Printing all the available books after adding new books...\n");
-    printMenu();
-}
-
-void deleteBookTest(char *filename, list bList) {
-    // allocate memory for the book.
-    book *bookToDelete = (book *) malloc(sizeof(book));
-
-    // set the book's id to 1.
-    bookToDelete->id = 1;
-
-    // delete the book with id 1 from the list.
-    if (deleteBook(*bookToDelete, bList))
-        printf("Something went wrong while trying to delete the book...\n");
-    else {
-        // save changes to the file.
-        save(filename, bList);
-
-        // print the new book menu.
-        printf("Printing the book menu after deleting the book with id 1...\n");
-        printMenu();
-    }
-
-    // free the memory for the book.
-    free(bookToDelete);
-}
-
 void showMenu() {
     printf("Available commands:\n");
     printf("1: Create a new book.\n");
@@ -148,9 +88,34 @@ void executeCommands(char *filename, list bList) {
     // execute the user's command.
     switch (command) {
         case 1:
-            create();
+            // allocate memory for the book.
+            book *bookToCreate = (book *) malloc(sizeof(book));
+
+            // ask for the new book's information.
+            printf("Please give an Author name: ");
+            scanf("%s", bookToCreate->author);
+
+            printf("Please give a new title for the book: ");
+            scanf("%s", bookToCreate->title);
+
+            bookToCreate->genre = readGenre();
+
+            memcpy(bookToCreate->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
+
+            // add the book to the list.
+            if (addBook(*bookToCreate, bList))
+                printf("Something went wrong while trying to create the book! Please try again.\n");
+            else
+                // save changes to the file.
+                save(filename, bList);
+
+            // free the memory for the book.
+            free(bookToCreate);
+            break;
         case 2:
-            delete();
+            // allocate memory for the book.
+            book *bookToDelete = (book *) malloc(sizeof(book));
+            break;
         case 3:
             printf("Please provide the id of the book that you want to update: ");
 
@@ -199,6 +164,7 @@ void executeCommands(char *filename, list bList) {
 
             // free the memory for the book.
             free(bookToUpdate);
+            break;
         case 4:
             printf("Please provide the id of the book that you want to print: ");
 
@@ -222,12 +188,16 @@ void executeCommands(char *filename, list bList) {
 
             // free the memory for the book.
             free(bookToPrint);
+            break;
         case 5:
             printMenu();
+            break;
         case 6:
             printf("------- Thank you for using HUA Library! -------\n\n");
             printf("------------------------------------------------");
             return;
+        default:
+            break;
     }
 
     executeCommands(filename, bList);
