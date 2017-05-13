@@ -19,11 +19,13 @@ void showMenu() {
 int yesOrNo() {
     printf("Press Y for yes or N for no: ");
     char choice;
-    scanf(" %c", &choice);
+    scanf("%c", &choice);
+    fflush(stdout);
 
     while (choice != 'N' && choice != 'Y') {
         printf("Unknown command! Please press Y for yes and N for no: ");
-        scanf(" %c", &choice);
+        scanf("%c", &choice);
+        fflush(stdout);
     }
 
     return choice == 'Y' ? 1 : 0;
@@ -38,10 +40,12 @@ genres readGenre() {
 
     int genre;
     scanf("%d", &genre);
+    fflush(stdout);
 
     while (genre < 1 || genre > 3) {
         printf("Unknown genre!\nPlease try inserting one of the available genres: ");
         scanf("%d", &genre);
+        fflush(stdout);
     }
 
     switch (genre) {
@@ -62,10 +66,12 @@ void executeCommands(char *filename, list bList) {
     // read the user's command, until it is valid.
     int command;
     scanf("%d", &command);
+    fflush(stdout);
 
     while (command < 1 || command > 7) {
         printf("Unknown command!\nPlease try inserting one of the available numbers: ");
         scanf("%d", &command);
+        fflush(stdout);
     }
 
     // declare a book for the commands.
@@ -80,9 +86,11 @@ void executeCommands(char *filename, list bList) {
             // ask for the new book's information.
             printf("Please give an Author name: ");
             scanf("%s", book->author);
+            fflush(stdout);
 
             printf("Please give a new title for the book: ");
             scanf("%s", book->title);
+            fflush(stdout);
 
             book->genre = readGenre();
 
@@ -92,6 +100,7 @@ void executeCommands(char *filename, list bList) {
             while (reviewsWritten < MAXREVIEWS) {
                 printf("Please write a review:\n    - ");
                 scanf("%s", reviews[reviewsWritten]);
+                fflush(stdout);
                 strcpy(book->reviews[reviewsWritten], reviews[reviewsWritten]);
                 ++reviewsWritten;
                 printf("Would you like to write another review?");
@@ -118,6 +127,7 @@ void executeCommands(char *filename, list bList) {
 
             // read the book's id.
             scanf("%d", &book->id);
+            fflush(stdout);
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
@@ -143,6 +153,7 @@ void executeCommands(char *filename, list bList) {
 
             // read the book's id.
             scanf("%d", &book->id);
+            fflush(stdout);
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
@@ -158,12 +169,14 @@ void executeCommands(char *filename, list bList) {
             if (yesOrNo()) {
                 printf("Please give a new Author name: ");
                 scanf("%s", book->author);
+                fflush(stdout);
             }
 
             printf("Would you like to update the book's title?\n");
             if (yesOrNo()) {
                 printf("Please give a new title for the book: ");
                 scanf("%s", book->title);
+                fflush(stdout);
             }
 
             printf("Would you like to update the book's genre?\n");
@@ -178,6 +191,7 @@ void executeCommands(char *filename, list bList) {
                 while (reviewsWritten < MAXREVIEWS) {
                     printf("Please write a review:\n    - ");
                     scanf("%s", newReviews[reviewsWritten]);
+                    fflush(stdout);
                     strcpy(book->reviews[reviewsWritten], newReviews[reviewsWritten]);
                     ++reviewsWritten;
                     printf("Would you like to write another review?");
@@ -205,6 +219,7 @@ void executeCommands(char *filename, list bList) {
 
             // read the book's id.
             scanf("%d", &book->id);
+            fflush(stdout);
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
