@@ -1,7 +1,7 @@
 #ifndef LIBRARY_BOOKS_H
 #define LIBRARY_BOOKS_H
 
-#define MAXSTRING 50
+#define MAXSTRING 100
 #define MAXREVIEWS 5
 
 typedef enum {
