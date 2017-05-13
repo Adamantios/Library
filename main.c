@@ -106,6 +106,10 @@ int yesOrNo() {
     return choice == 'Y' ? 1 : 0;
 }
 
+genres readGenre() {
+    printf("Please give a new genre for the book: ");
+}
+
 void executeCommands(char *filename, list bList) {
     showMenu();
 
@@ -144,28 +148,36 @@ void executeCommands(char *filename, list bList) {
             // find the book that the user wants to update.
             *bookToUpdate = findBook(*bookToUpdate, bList);
 
+            // ask for the new book's information.
             printf("Would you like to update the book's author?\n");
-            int choice = yesOrNo();
+            if (yesOrNo()) {
+                printf("Please give a new Author name: ");
+                scanf("%s", bookToUpdate->author);
+            }
 
-            // change the information of the book.
-            strcpy(bookToUpdate->author, "Someone Else");
-            strcpy(bookToUpdate->title, "The Best Book");
-            bookToUpdate->genre = FICTION;
-            strcpy(bookToUpdate->reviews[0], "First Review.");
-            strcpy(bookToUpdate->reviews[1], "Second Review.");
-            strcpy(bookToUpdate->reviews[2], "Third Review.");
+            printf("Would you like to update the book's title?\n");
+            if (yesOrNo()) {
+                printf("Please give a new title for the book: ");
+                scanf("%s", bookToUpdate->title);
+            }
 
-            // update the book with id 2 from the list.
+            printf("Would you like to update the book's genre?\n");
+            if (yesOrNo()) {
+                bookToUpdate->genre = readGenre();
+            }
+
+            printf("Would you like to update the book's reviews?\n");
+            if (yesOrNo()) {
+                printf("Please give a new genre for the book: ");
+                bookToUpdate->reviews = readReviews();
+            }
+
+            // update the book from the list.
             if (updateBook(*bookToUpdate, bList))
-                printf("Something went wrong while trying to update the book...\n");
-            else {
+                printf("Something went wrong while trying to update the book! Please try again.\n");
+            else
                 // save changes to the file.
                 save(filename, bList);
-
-                // print the new book menu.
-                printf("Printing the book menu after updating the book with id 2...\n");
-                printMenu();
-            }
 
             // free the memory for the book.
             free(bookToUpdate);
