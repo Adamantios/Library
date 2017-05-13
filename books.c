@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <malloc.h>
 #include "books.h"
 
 list create_list() {
@@ -102,10 +102,10 @@ int addBook(book b, list bList) {
     // allocate memory for the new book.
     node *newBook = (node *) malloc(sizeof(node));
 
-    // in case of failure print an error message and finish program with exit code -1.
+    // in case of failure print an error message and return 1.
     if (newBook == NULL) {
         fprintf(stderr, "Unable to allocate memory for a new book.\n");
-        exit(-1);
+        return 1;
     }
 
     // create the new book.
