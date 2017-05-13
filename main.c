@@ -104,7 +104,7 @@ void updateBookTest(char *filename, list bList) {
         save(filename, bList);
 
         // print the new book menu.
-        printf("Printing the book menu after updating the book with id 1...\n");
+        printf("Printing the book menu after updating the book with id 2...\n");
         printMenu();
     }
 
