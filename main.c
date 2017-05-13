@@ -81,7 +81,7 @@ void executeCommands(char *filename, list bList) {
     scanf("%d", &command);
 
     while (command < 1 || command > 7) {
-        printf("Unknown command!\nPlease try inserting one of the available numbers: \n");
+        printf("Unknown command!\nPlease try inserting one of the available numbers: ");
         scanf("%d", &command);
     }
 
