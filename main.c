@@ -4,14 +4,14 @@
 #include "books.h"
 
 void showMenu() {
-    printf("Available commands:\n");
+    printf("\nAvailable commands:\n");
     printf("1: Create a new book.\n");
     printf("2: Delete a book.\n");
     printf("3: Update a book.\n");
     printf("4: Print a book's information.\n");
     printf("5: Print the book menu.\n");
-    printf("6: Exit.\n");
-    printf("Please insert a number in order to run a command.\n");
+    printf("6: Exit.\n\n");
+    printf("Please insert a number in order to run a command: ");
 }
 
 int yesOrNo() {
