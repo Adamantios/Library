@@ -2,6 +2,7 @@
   <dictionary name="manos">
     <words>
       <w>malloc</w>
+      <w>mallocs</w>
       <w>maxreviews</w>
       <w>scanf</w>
       <w>struct</w>

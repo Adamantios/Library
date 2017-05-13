@@ -3,6 +3,8 @@
 #include <malloc.h>
 #include "books.h"
 
+// TODO add exit to all mallocs if not successful.
+
 void showMenu() {
     printf("\nAvailable commands:\n");
     printf("1: Create a new book.\n");
@@ -17,11 +19,11 @@ void showMenu() {
 int yesOrNo() {
     printf("Press Y for yes or N for no: ");
     char choice;
-    scanf("%c", &choice);
+    scanf(" %c", &choice);
 
     while (choice != 'N' && choice != 'Y') {
         printf("Unknown command! Please press Y for yes and N for no: ");
-        scanf("%c", &choice);
+        scanf(" %c", &choice);
     }
 
     return choice == 'Y' ? 1 : 0;
@@ -54,25 +56,6 @@ genres readGenre() {
     }
 }
 
-char **readReviews() {
-    char **reviews;
-    reviews = (char **) malloc(sizeof(char *) * MAXREVIEWS);
-    reviews[0] = (char *) malloc(sizeof(char) * MAXSTRING * MAXREVIEWS);
-
-    int reviewsWritten = 0;
-
-    while (reviewsWritten < MAXREVIEWS) {
-        printf("Please write a review:\n    - ");
-        scanf("%s", reviews[reviewsWritten++]);
-        printf("Would you like to write another review?");
-
-        if (!yesOrNo())
-            break;
-    }
-
-    return reviews;
-}
-
 void executeCommands(char *filename, list bList) {
     showMenu();
 
@@ -103,7 +86,19 @@ void executeCommands(char *filename, list bList) {
 
             book->genre = readGenre();
 
-            memcpy(book->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
+            char reviews[MAXREVIEWS][MAXSTRING];
+            int reviewsWritten = 0;
+
+            while (reviewsWritten < MAXREVIEWS) {
+                printf("Please write a review:\n    - ");
+                scanf("%s", reviews[reviewsWritten]);
+                strcpy(book->reviews[reviewsWritten], reviews[reviewsWritten]);
+                ++reviewsWritten;
+                printf("Would you like to write another review?");
+
+                if (!yesOrNo())
+                    break;
+            }
 
             // add the book to the list.
             if (addBook(*book, bList))
@@ -176,8 +171,21 @@ void executeCommands(char *filename, list bList) {
                 book->genre = readGenre();
 
             printf("Would you like to update the book's reviews?\n");
-            if (yesOrNo())
-                memcpy(book->reviews, readReviews(), sizeof(char) * MAXSTRING * MAXREVIEWS);
+            if (yesOrNo()) {
+                char newReviews[MAXREVIEWS][MAXSTRING];
+                reviewsWritten = 0;
+
+                while (reviewsWritten < MAXREVIEWS) {
+                    printf("Please write a review:\n    - ");
+                    scanf("%s", newReviews[reviewsWritten]);
+                    strcpy(book->reviews[reviewsWritten], newReviews[reviewsWritten]);
+                    ++reviewsWritten;
+                    printf("Would you like to write another review?");
+
+                    if (!yesOrNo())
+                        break;
+                }
+            }
 
             // update the book from the list.
             if (updateBook(*book, bList))
@@ -217,7 +225,7 @@ void executeCommands(char *filename, list bList) {
             printMenu();
             break;
         case 6:
-            printf("------- Thank you for using HUA Library! -------\n\n");
+            printf("\n------- Thank you for using HUA Library! -------\n\n");
             printf("------------------------------------------------");
             return;
         default:
