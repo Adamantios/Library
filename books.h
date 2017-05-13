@@ -51,4 +51,6 @@ int deleteBook(book b, list bList);
 
 int updateBook(book b, list bList);
 
+int bookExists(book b, list bList);
+
 #endif //LIBRARY_BOOKS_H

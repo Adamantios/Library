@@ -159,3 +159,15 @@ int updateBook(book b, list bList) {
     } else
         return 1;
 }
+
+int bookExists(book b, list bList) {
+    node *currentBook = bList->head;
+
+    while (currentBook != NULL && currentBook->book.id != b.id)
+        currentBook = currentBook->next;
+
+    if (currentBook != NULL)
+        return 0;
+    else
+        return 1;
+}
