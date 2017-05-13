@@ -231,7 +231,7 @@ void startLibraryApp(char *filename) {
     // create a book list. It will be empty if the filename is empty or does not exist.
     list bList = load(filename);
 
-    printf("------------------------------------------------");
+    printf("------------------------------------------------\n\n");
     printf("------------ Welcome To HUA Library ------------\n\n");
     executeCommands(filename, bList);
 }
