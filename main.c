@@ -232,7 +232,7 @@ void startLibraryApp(char *filename) {
     list bList = load(filename);
 
     printf("------------------------------------------------\n\n");
-    printf("------------ Welcome To HUA Library ------------\n\n");
+    printf("------------ Welcome To HUA Library ------------\n");
     executeCommands(filename, bList);
 }
 
