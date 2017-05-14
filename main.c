@@ -17,17 +17,27 @@ void showMenu() {
     printf("Please insert a number in order to run a command: ");
 }
 
+char *readUserInput() {
+    char *input = malloc(sizeof(char) * MAXSTRING);
+    int c;
+    int input_length = 0;
+
+    // loop until getchar() returns eof or user presses enter
+    // check that we don't exceed the MAXSTRING - 1 to make room for the null terminator
+    while ((c = getchar()) != '\n' && c != EOF && input_length < MAXSTRING - 1)
+        input[input_length++] = (char) c;
+
+    // terminate the array, so it can be used as a string
+    input[input_length] = '\0';
+
+    return input;
+}
+
 int yesOrNo() {
     printf("Press Y for yes or N for no: ");
-    char choice;
-    scanf("%c", &choice);
-    fflush(stdout);
-
-    while (choice != 'N' && choice != 'Y') {
+    int choice;
+    while ((choice = getchar()) != '\n' && choice != EOF && choice != 'N' && choice != 'Y')
         printf("Unknown command! Please press Y for yes and N for no: ");
-        scanf("%c", &choice);
-        fflush(stdout);
-    }
 
     return choice == 'Y' ? 1 : 0;
 }
@@ -40,6 +50,7 @@ genres readGenre() {
     printf("Please choose one of the available genres for the book, by inserting it's number: ");
 
     int genre;
+    genre = readUserInput();
     scanf("%d", &genre);
     fflush(stdout);
 
