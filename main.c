@@ -21,14 +21,22 @@ char *readUserInput() {
     char *input = malloc(sizeof(char) * MAXSTRING);
     int c;
     int input_length = 0;
+    int warningFlag = 0;
 
     // loop until getchar() returns eof or user presses enter
-    // check that we don't exceed the MAXSTRING - 1 to make room for the null terminator
-    while ((c = getchar()) != '\n' && c != EOF && input_length < MAXSTRING - 1)
-        input[input_length++] = (char) c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        // check that we don't exceed the MAXSTRING - 1 to make room for the null terminator
+        if (input_length < MAXSTRING - 1)
+            input[input_length++] = (char) c;
+        else
+            warningFlag = 1;
+    }
 
     // terminate the array, so it can be used as a string
     input[input_length] = '\0';
+
+    if (warningFlag)
+        printf("- You have exceeded the maximum string size limitations! (%d letters)\n", MAXSTRING);
 
     return input;
 }
