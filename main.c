@@ -147,9 +147,11 @@ void executeCommands(char *filename, list bList) {
             // delete the book from the list.
             if (deleteBook(*book, bList))
                 printf("Something went wrong while trying to update the book! Please try again.\n");
-            else
-                // save changes to the file.
+            else {
+                // save changes to the file and show success message.
                 save(filename, bList);
+                printf("The book has been successfully deleted.");
+            }
 
             // free the memory for the book.
             free(book);
@@ -209,9 +211,11 @@ void executeCommands(char *filename, list bList) {
             // update the book from the list.
             if (updateBook(*book, bList))
                 printf("Something went wrong while trying to update the book! Please try again.\n");
-            else
-                // save changes to the file.
+            else {
+                // save changes to the file and show success message.
                 save(filename, bList);
+                printf("The book has been successfully updated.");
+            }
 
             // free the memory for the book.
             free(book);
