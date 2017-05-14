@@ -17,6 +17,8 @@ void showMenu() {
     printf("Please insert a number in order to run a command: ");
 }
 
+// TODO use it in the right way with digits. pass size limitation parameter.
+// TODO use in yes or no function.
 char *readUserInput() {
     char *input = malloc(sizeof(char) * MAXSTRING);
     int c;
