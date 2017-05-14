@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "books.h"
 
 // TODO add exit to all mallocs if not successful.
@@ -50,14 +50,11 @@ genres readGenre() {
     printf("Please choose one of the available genres for the book, by inserting it's number: ");
 
     int genre;
-    genre = readUserInput();
-    scanf("%d", &genre);
-    fflush(stdout);
+    genre = atoi(readUserInput());
 
     while (genre < 1 || genre > 3) {
         printf("Unknown genre!\nPlease try inserting one of the available genres: ");
-        scanf("%d", &genre);
-        fflush(stdout);
+        genre = atoi(readUserInput());
     }
 
     switch (genre) {
@@ -77,13 +74,11 @@ void executeCommands(char *filename, list bList) {
 
     // read the user's command, until it is valid.
     int command;
-    scanf("%d", &command);
-    fflush(stdout);
+    command = atoi(readUserInput());
 
     while (command < 1 || command > 7) {
         printf("Unknown command!\nPlease try inserting one of the available numbers: ");
-        scanf("%d", &command);
-        fflush(stdout);
+        command = atoi(readUserInput());
     }
 
     // declare a book for the commands.
@@ -97,23 +92,18 @@ void executeCommands(char *filename, list bList) {
 
             // ask for the new book's information.
             printf("Please give an Author name: ");
-            scanf("%s", book->author);
-            fflush(stdout);
+            strcpy(book->author, readUserInput());
 
             printf("Please give a new title for the book: ");
-            scanf("%s", book->title);
-            fflush(stdout);
+            strcpy(book->title, readUserInput());
 
             book->genre = readGenre();
 
-            char reviews[MAXREVIEWS][MAXSTRING];
             int reviewsWritten = 0;
 
             while (reviewsWritten < MAXREVIEWS) {
                 printf("Please write a review:\n    - ");
-                scanf("%s", reviews[reviewsWritten]);
-                fflush(stdout);
-                strcpy(book->reviews[reviewsWritten], reviews[reviewsWritten]);
+                strcpy(book->reviews[reviewsWritten], readUserInput());
                 ++reviewsWritten;
                 printf("Would you like to write another review?");
 
@@ -138,8 +128,7 @@ void executeCommands(char *filename, list bList) {
             book = malloc(sizeof(book));
 
             // read the book's id.
-            scanf("%d", &book->id);
-            fflush(stdout);
+            book->id = atoi(readUserInput());
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
@@ -164,8 +153,7 @@ void executeCommands(char *filename, list bList) {
             book = malloc(sizeof(book));
 
             // read the book's id.
-            scanf("%d", &book->id);
-            fflush(stdout);
+            book->id = atoi(readUserInput());
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
@@ -180,15 +168,13 @@ void executeCommands(char *filename, list bList) {
             printf("Would you like to update the book's author?\n");
             if (yesOrNo()) {
                 printf("Please give a new Author name: ");
-                scanf("%s", book->author);
-                fflush(stdout);
+                strcpy(book->author, readUserInput());
             }
 
             printf("Would you like to update the book's title?\n");
             if (yesOrNo()) {
                 printf("Please give a new title for the book: ");
-                scanf("%s", book->title);
-                fflush(stdout);
+                strcpy(book->title, readUserInput());
             }
 
             printf("Would you like to update the book's genre?\n");
@@ -197,14 +183,11 @@ void executeCommands(char *filename, list bList) {
 
             printf("Would you like to update the book's reviews?\n");
             if (yesOrNo()) {
-                char newReviews[MAXREVIEWS][MAXSTRING];
                 reviewsWritten = 0;
 
                 while (reviewsWritten < MAXREVIEWS) {
                     printf("Please write a review:\n    - ");
-                    scanf("%s", newReviews[reviewsWritten]);
-                    fflush(stdout);
-                    strcpy(book->reviews[reviewsWritten], newReviews[reviewsWritten]);
+                    strcpy(book->reviews[reviewsWritten], readUserInput());
                     ++reviewsWritten;
                     printf("Would you like to write another review?");
 
@@ -230,8 +213,7 @@ void executeCommands(char *filename, list bList) {
             book = malloc(sizeof(book));
 
             // read the book's id.
-            scanf("%d", &book->id);
-            fflush(stdout);
+            book->id = atoi(readUserInput());
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
