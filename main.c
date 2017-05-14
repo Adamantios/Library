@@ -4,7 +4,7 @@
 #include "books.h"
 
 // TODO add exit to all mallocs if not successful.
-// TODO correct update.
+// TODO correct update and delete.
 
 void showMenu() {
     printf("\nAvailable commands:\n");
