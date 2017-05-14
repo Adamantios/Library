@@ -105,7 +105,7 @@ void executeCommands(char *filename, list bList) {
                 printf("Please write a review:\n    - ");
                 strcpy(book->reviews[reviewsWritten], readUserInput());
                 ++reviewsWritten;
-                printf("Would you like to write another review?");
+                printf("Would you like to write another review?\n");
 
                 if (!yesOrNo())
                     break;
@@ -189,7 +189,7 @@ void executeCommands(char *filename, list bList) {
                     printf("Please write a review:\n    - ");
                     strcpy(book->reviews[reviewsWritten], readUserInput());
                     ++reviewsWritten;
-                    printf("Would you like to write another review?");
+                    printf("Would you like to write another review?\n");
 
                     if (!yesOrNo())
                         break;
