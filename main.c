@@ -37,7 +37,7 @@ int yesOrNo() {
     printf("Press Y for yes or N for no: ");
     int choice;
     while ((choice = getchar()) != '\n' && choice != EOF && choice != 'N' && choice != 'Y')
-        printf("Unknown command! Please press Y for yes and N for no: ");
+        printf("Unknown command! Please press Y for yes or N for no: ");
 
     return choice == 'Y' ? 1 : 0;
 }
