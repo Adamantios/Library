@@ -35,11 +35,17 @@ char *readUserInput() {
 
 int yesOrNo() {
     printf("Press Y for yes or N for no: ");
-    int choice;
-    while ((choice = getchar()) != '\n' && choice != EOF && choice != 'N' && choice != 'Y')
-        printf("Unknown command! Please press Y for yes or N for no: ");
+    int c;
+    int choice = 0;
 
-    return choice == 'Y' ? 1 : 0;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        if (c != 'N' && c != 'Y')
+            printf("Unknown command! Please press Y for yes or N for no: ");
+        else
+            choice = c == 'Y' ? 1 : 0;
+    }
+
+    return choice;
 }
 
 genres readGenre() {
