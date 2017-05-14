@@ -8,7 +8,6 @@ list create_list() {
     list->head = NULL;
     list->size = 0;
 
-    uniqueId = 0;
     bListHead = &list->head;
 
     return list;
@@ -95,9 +94,28 @@ void save(char *filename, list bList) {
         printf("An error occurred while trying to save your books at %s!", filename);
 }
 
+int findUniqueId(int desiredId) {
+    node *current = *bListHead;
+
+    // if the list is empty return the desired id.
+    if (current == NULL)
+        return desiredId;
+
+    // go to the next item until the list is empty or an id with the desired id value exists.
+    while (current != NULL && current->book.id != desiredId)
+        current = current->next;
+
+    // if an item with the same id was found,
+    // make the desired id the result of the recursion with a parameter of the desired id plus one.
+    if (current != NULL)
+        desiredId = findUniqueId(++desiredId);
+
+    return desiredId;
+}
+
 int addBook(book b, list bList) {
     // assign a unique id to the book.
-    b.id = ++uniqueId;
+    b.id = findUniqueId(INITIAL_ID_VALUE);
 
     // allocate memory for the new book.
     node *newBook = malloc(sizeof(node));

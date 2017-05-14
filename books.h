@@ -3,6 +3,7 @@
 
 #define MAXSTRING 100
 #define MAXREVIEWS 5
+#define INITIAL_ID_VALUE 1
 
 typedef enum {
     FICTION, SCIENTIFIC, POLITICS
@@ -26,7 +27,6 @@ typedef struct list {
     int size;
 } *list;
 
-int uniqueId;
 node **bListHead;
 
 list create_list();
@@ -42,6 +42,8 @@ void print(book b);
 list load(char *filename);
 
 void save(char *filename, list bList);
+
+int findUniqueId(int desiredId);
 
 int addBook(book b, list bList);
 
