@@ -209,7 +209,7 @@ void executeCommands(char *filename, list bList) {
 
             // delete the book from the list.
             if (deleteBook(*book, bList))
-                printf("Something went wrong while trying to update the book! Please try again.\n");
+                printf("Something went wrong while trying to delete the book! Please try again.\n");
             else {
                 // save changes to the file and show success message.
                 save(filename, bList);
