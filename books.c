@@ -4,7 +4,7 @@
 #include "books.h"
 
 list create_list() {
-    list list = malloc(sizeof(list));
+    bookList *list = malloc(sizeof(bookList));
 
     // in case of failure print an error message and exit with error code 1.
     if (list == NULL) {

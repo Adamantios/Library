@@ -25,7 +25,9 @@ typedef struct node {
 typedef struct list {
     node *head;
     int size;
-} *list;
+} bookList;
+
+typedef bookList *list;
 
 node **bListHead;
 
