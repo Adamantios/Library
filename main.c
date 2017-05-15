@@ -33,6 +33,13 @@ int readIntSafely() {
 
 char *readStringSafely(int limitation) {
     char *input = malloc(sizeof(char) * limitation);
+
+    // in case of failure print an error message and exit with error code 1.
+    if (input == NULL) {
+        fprintf(stderr, "Unable to allocate memory for your input.\n");
+        exit(1);
+    }
+
     int c;
     int input_length = 0;
     int warningFlag = 0;
@@ -132,6 +139,12 @@ void executeCommands(char *filename, list bList) {
             // allocate memory for the book.
             book = malloc(sizeof(book));
 
+            // in case of failure print an error message and exit with error code 1.
+            if (book == NULL) {
+                fprintf(stderr, "Unable to allocate memory for a new book.\n");
+                exit(1);
+            }
+
             // ask for the new book's information.
             printf("Please give an Author name: ");
             strcpy(book->author, readStringSafely(MAXSTRING));
@@ -171,6 +184,12 @@ void executeCommands(char *filename, list bList) {
             // allocate memory for the book.
             book = malloc(sizeof(book));
 
+            // in case of failure print an error message and exit with error code 1.
+            if (book == NULL) {
+                fprintf(stderr, "Unable to allocate memory in order to delete the book.\n");
+                exit(1);
+            }
+
             // read the book's id.
             book->id = readIntSafely();
 
@@ -197,6 +216,12 @@ void executeCommands(char *filename, list bList) {
 
             // allocate memory for the book.
             book = malloc(sizeof(book));
+
+            // in case of failure print an error message and exit with error code 1.
+            if (book == NULL) {
+                fprintf(stderr, "Unable to allocate memory in order to update the book.\n");
+                exit(1);
+            }
 
             // read the book's id.
             book->id = readIntSafely();
@@ -261,6 +286,12 @@ void executeCommands(char *filename, list bList) {
 
             // allocate memory for the book.
             book = malloc(sizeof(book));
+
+            // in case of failure print an error message and exit with error code 1.
+            if (book == NULL) {
+                fprintf(stderr, "Unable to allocate memory in order to show the book.\n");
+                exit(1);
+            }
 
             // read the book's id.
             book->id = readIntSafely();

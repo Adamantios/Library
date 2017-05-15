@@ -1,10 +1,17 @@
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "books.h"
 
 list create_list() {
     list list = malloc(sizeof(list));
+
+    // in case of failure print an error message and exit with error code 1.
+    if (list == NULL) {
+        fprintf(stderr, "Unable to allocate memory for the book list.\n");
+        exit(1);
+    }
+
     list->head = NULL;
     list->size = 0;
 
@@ -69,6 +76,12 @@ list load(char *filename) {
     if (file != NULL) {
         book *newBook = malloc(sizeof(book));
 
+        // in case of failure print an error message and exit with error code 1.
+        if (newBook == NULL) {
+            fprintf(stderr, "Unable to allocate memory for the books.\n");
+            exit(1);
+        }
+
         while (!feof(file)) {
             fread(newBook, sizeof(book), 1, file);
             addBook(*newBook, bList);
@@ -120,10 +133,10 @@ int addBook(book b, list bList) {
     // allocate memory for the new book.
     node *newBook = malloc(sizeof(node));
 
-    // in case of failure print an error message and return 1.
+    // in case of failure print an error message and exit with error code 1.
     if (newBook == NULL) {
         fprintf(stderr, "Unable to allocate memory for a new book.\n");
-        return 1;
+        exit(1);
     }
 
     // create the new book.
