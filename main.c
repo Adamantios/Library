@@ -31,46 +31,61 @@ int readIntSafely() {
     return i;
 }
 
-// TODO use in yes or no function.
 char *readUserInput(int limitation) {
     char *input = malloc(sizeof(char) * limitation);
     int c;
     int input_length = 0;
     int warningFlag = 0;
 
-    // loop until getchar() returns eof or user presses enter
+    // loop until getchar() returns eof or user presses enter.
     while ((c = getchar()) != '\n' && c != EOF) {
-        // check that we don't exceed the MAXSTRING - 1 to make room for the null terminator
+        // check that we don't exceed the limitation - 1 to make room for the null terminator.
         if (input_length < limitation - 1)
             input[input_length++] = (char) c;
         else
             warningFlag = 1;
     }
 
-    // terminate the array, so it can be used as a string
+    // terminate the array, so it can be used as a string.
     input[input_length] = '\0';
 
     if (warningFlag)
-        printf("- You have exceeded the maximum string size limitations! (%d letters)\n", MAXSTRING);
+        printf("- You have exceeded the maximum string size limitations! (%d letters)\n", limitation);
+
+    return input;
+}
+
+char readCharSafely() {
+    char input = '\0';
+    int c;
+    int inputLength = 0;
+
+    // loop until getchar() returns eof or user presses enter.
+    while ((c = getchar()) != '\n' && c != EOF) {
+        // check that we don't exceed the single character, or else return an empty character.
+        if (inputLength < 1) {
+            input = (char) c;
+            ++inputLength;
+        } else
+            input = '\0';
+    }
 
     return input;
 }
 
 int yesOrNo() {
     printf("Press Y for yes or N for no: ");
-    int c;
-    int choice = 0;
+    char choice = readCharSafely();
 
-    while ((c = getchar()) != '\n' && c != EOF) {
-        if (c != 'N' && c != 'Y')
-            printf("Unknown command! Please press Y for yes or N for no: ");
-        else
-            choice = c == 'Y' ? 1 : 0;
+    while (choice != 'Y' && choice != 'N') {
+        printf("Unknown command! Please press Y for yes or N for no: ");
+        choice = readCharSafely();
     }
 
-    return choice;
+    return choice == 'Y' ? 1 : 0;
 }
 
+// TODO correct by using the read int safely function.
 genres readGenre() {
     printf("Available Genres:\n");
     printf("1: Fiction\n");
@@ -172,7 +187,7 @@ void executeCommands(char *filename, list bList) {
             else {
                 // save changes to the file and show success message.
                 save(filename, bList);
-                printf("The book has been successfully deleted.");
+                printf("The book has been successfully deleted.\n");
             }
 
             // free the memory for the book.
@@ -236,7 +251,7 @@ void executeCommands(char *filename, list bList) {
             else {
                 // save changes to the file and show success message.
                 save(filename, bList);
-                printf("The book has been successfully updated.");
+                printf("The book has been successfully updated.\n");
             }
 
             // free the memory for the book.
