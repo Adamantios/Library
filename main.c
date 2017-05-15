@@ -117,6 +117,19 @@ genres readGenre() {
     }
 }
 
+const char *promptReadDiscardEmpty(char *message, int limitation) {
+    printf(message);
+    const char *result;
+    result = readStringSafely(limitation);
+
+    while (result[0] == '\0') {
+        printf(message);
+        result = readStringSafely(limitation);
+    }
+
+    return result;
+}
+
 void executeCommands(char *filename, list bList) {
     showMenu();
 
@@ -144,11 +157,8 @@ void executeCommands(char *filename, list bList) {
             }
 
             // ask for the new book's information.
-            printf("Please give an Author name: ");
-            strcpy(book->author, readStringSafely(MAXSTRING));
-
-            printf("Please give a new title for the book: ");
-            strcpy(book->title, readStringSafely(MAXSTRING));
+            strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", MAXSTRING));
+            strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", MAXSTRING));
 
             book->genre = readGenre();
 
@@ -235,16 +245,12 @@ void executeCommands(char *filename, list bList) {
 
             // ask for the new book's information.
             printf("Would you like to update the book's author?\n");
-            if (yesOrNo()) {
-                printf("Please give a new Author name: ");
-                strcpy(book->author, readStringSafely(MAXSTRING));
-            }
+            if (yesOrNo())
+                strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", MAXSTRING));
 
             printf("Would you like to update the book's title?\n");
-            if (yesOrNo()) {
-                printf("Please give a new title for the book: ");
-                strcpy(book->title, readStringSafely(MAXSTRING));
-            }
+            if (yesOrNo())
+                strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", MAXSTRING));
 
             printf("Would you like to update the book's genre?\n");
             if (yesOrNo())
