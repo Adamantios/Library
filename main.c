@@ -148,10 +148,10 @@ void executeCommands(char *filename, list bList, book *book) {
             book->genre = readGenre();
 
             int reviewsWritten = 0;
+            char reviews[MAXREVIEWS][MAXSTRING] = {'\0'};
 
             while (reviewsWritten < MAXREVIEWS) {
-                strcpy(book->reviews[reviewsWritten++],
-                       promptReadDiscardEmpty("Please write a review:\n    - "));
+                strcpy(reviews[reviewsWritten++], promptReadDiscardEmpty("Please write a review:\n    - "));
 
                 if (reviewsWritten < MAXREVIEWS) {
                     printf("Would you like to write another review?\n");
@@ -160,6 +160,8 @@ void executeCommands(char *filename, list bList, book *book) {
                         break;
                 }
             }
+
+            memcpy(book->reviews, reviews, sizeof(book->reviews));
 
             // add the book to the list.
             if (addBook(*book, bList))
