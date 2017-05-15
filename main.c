@@ -51,9 +51,6 @@ const char *readStringSafely() {
             warningFlag = 1;
     }
 
-    // terminate the array, so it can be used as a string.
-    input[input_length] = '\0';
-
     if (warningFlag)
         printf("- You have exceeded the maximum string size limitations! (%d letters)\n", MAXSTRING);
 
