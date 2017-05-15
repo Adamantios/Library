@@ -286,8 +286,8 @@ void startLibraryApp(char *filename) {
     printf("------------------------------------------------\n\n");
     printf("------------ Welcome To HUA Library ------------\n");
 
-    // declare and allocate memory for a book to be used in the commands.
-    book *book = malloc(sizeof(book));
+    // allocate memory for a book to be used in the commands.
+    book *book = malloc(sizeof *book);
 
     // in case of failure print an error message and exit with error code 1.
     if (book == NULL) {

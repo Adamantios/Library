@@ -4,7 +4,7 @@
 #include "books.h"
 
 list create_list() {
-    bookList *list = malloc(sizeof(bookList));
+    bookList *list = malloc(sizeof *list);
 
     // in case of failure print an error message and exit with error code 1.
     if (list == NULL) {
@@ -74,7 +74,7 @@ list load(char *filename) {
     list bList = create_list();
 
     if (file != NULL) {
-        book *newBook = malloc(sizeof(book));
+        book *newBook = malloc(sizeof *newBook);
 
         // in case of failure print an error message and exit with error code 1.
         if (newBook == NULL) {
@@ -131,7 +131,7 @@ int addBook(book b, list bList) {
     b.id = findUniqueId(INITIAL_ID_VALUE);
 
     // allocate memory for the new book.
-    node *newBook = malloc(sizeof(node));
+    node *newBook = malloc(sizeof *newBook);
 
     // in case of failure print an error message and exit with error code 1.
     if (newBook == NULL) {
