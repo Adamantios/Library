@@ -17,6 +17,20 @@ void showMenu() {
     printf("Please insert a number in order to run a command: ");
 }
 
+int readIntSafely() {
+    int i;
+    int result = scanf("%d", &i);
+
+    // if an error occurred return NULL.
+    if (result == EOF)
+        return NULL;
+
+    // clear the buffer.
+    while (fgetc(stdin) != '\n') {}
+
+    return i;
+}
+
 // TODO use it in the right way with digits. pass size limitation parameter.
 // TODO use in yes or no function.
 char *readUserInput() {
@@ -89,12 +103,11 @@ void executeCommands(char *filename, list bList) {
     showMenu();
 
     // read the user's command, until it is valid.
-    int command;
-    command = atoi(readUserInput());
+    int command = readIntSafely();
 
     while (command < 1 || command > 7) {
         printf("Unknown command!\nPlease try inserting one of the available numbers: ");
-        command = atoi(readUserInput());
+        command = readIntSafely();
     }
 
     // declare a book for the commands.
@@ -146,7 +159,7 @@ void executeCommands(char *filename, list bList) {
             book = malloc(sizeof(book));
 
             // read the book's id.
-            book->id = atoi(readUserInput());
+            book->id = readIntSafely();
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
@@ -173,7 +186,7 @@ void executeCommands(char *filename, list bList) {
             book = malloc(sizeof(book));
 
             // read the book's id.
-            book->id = atoi(readUserInput());
+            book->id = readIntSafely();
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
@@ -237,7 +250,7 @@ void executeCommands(char *filename, list bList) {
             book = malloc(sizeof(book));
 
             // read the book's id.
-            book->id = atoi(readUserInput());
+            book->id = readIntSafely();
 
             // if the book with the id that the user has provided does not exist, break.
             if (bookExists(*book, bList)) {
