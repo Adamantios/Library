@@ -19,9 +19,9 @@ int readIntSafely() {
     int i;
     int result = scanf("%d", &i);
 
-    // if an error occurred return NULL.
+    // if an error occurred return 0.
     if (result == EOF)
-        return NULL;
+        return 0;
 
     // clear the buffer.
     while (fgetc(stdin) != '\n') {}
@@ -118,12 +118,12 @@ genres readGenre() {
 }
 
 const char *promptReadDiscardEmpty(char *message, int limitation) {
-    printf(message);
+    printf("%s", message);
     const char *result;
     result = readStringSafely(limitation);
 
     while (result[0] == '\0') {
-        printf(message);
+        printf("%s", message);
         result = readStringSafely(limitation);
     }
 
@@ -144,18 +144,25 @@ void executeCommands(char *filename, list bList) {
     // declare a book for the commands.
     book *book;
 
+    // allocate memory for the book.
+    book = malloc(sizeof(book));
+
+    // in case of failure print an error message and exit with error code 1.
+    if (book == NULL) {
+        fprintf(stderr, "Unable to allocate memory for the program.\n");
+        exit(1);
+    }
+
+    // initialize reviews table
+    for (int i = 0; i < MAXREVIEWS; ++i) {
+        for (int j = 0; j < MAXSTRING; ++j) {
+            book->reviews[i][j] = '\0';
+        }
+    }
+
     // execute the user's command.
     switch (command) {
         case 1:
-            // allocate memory for the book.
-            book = malloc(sizeof(book));
-
-            // in case of failure print an error message and exit with error code 1.
-            if (book == NULL) {
-                fprintf(stderr, "Unable to allocate memory for a new book.\n");
-                exit(1);
-            }
-
             // ask for the new book's information.
             strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", MAXSTRING));
             strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", MAXSTRING));
@@ -183,20 +190,9 @@ void executeCommands(char *filename, list bList) {
                 // save changes to the file.
                 save(filename, bList);
 
-            // free the memory for the book.
-            free(book);
             break;
         case 2:
             printf("Please provide the id of the book that you want to delete: ");
-
-            // allocate memory for the book.
-            book = malloc(sizeof(book));
-
-            // in case of failure print an error message and exit with error code 1.
-            if (book == NULL) {
-                fprintf(stderr, "Unable to allocate memory in order to delete the book.\n");
-                exit(1);
-            }
 
             // read the book's id.
             book->id = readIntSafely();
@@ -216,20 +212,9 @@ void executeCommands(char *filename, list bList) {
                 printf("The book has been successfully deleted.\n");
             }
 
-            // free the memory for the book.
-            free(book);
             break;
         case 3:
             printf("Please provide the id of the book that you want to update: ");
-
-            // allocate memory for the book.
-            book = malloc(sizeof(book));
-
-            // in case of failure print an error message and exit with error code 1.
-            if (book == NULL) {
-                fprintf(stderr, "Unable to allocate memory in order to update the book.\n");
-                exit(1);
-            }
 
             // read the book's id.
             book->id = readIntSafely();
@@ -282,20 +267,9 @@ void executeCommands(char *filename, list bList) {
                 printf("The book has been successfully updated.\n");
             }
 
-            // free the memory for the book.
-            free(book);
             break;
         case 4:
             printf("Please provide the id of the book that you want to print: ");
-
-            // allocate memory for the book.
-            book = malloc(sizeof(book));
-
-            // in case of failure print an error message and exit with error code 1.
-            if (book == NULL) {
-                fprintf(stderr, "Unable to allocate memory in order to show the book.\n");
-                exit(1);
-            }
 
             // read the book's id.
             book->id = readIntSafely();
@@ -312,8 +286,6 @@ void executeCommands(char *filename, list bList) {
             // print the book.
             print(*book);
 
-            // free the memory for the book.
-            free(book);
             break;
         case 5:
             printMenu();
