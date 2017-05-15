@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "books.h"
 
-// TODO correct update and delete.
 void showMenu() {
     printf("\nAvailable commands:\n");
     printf("1: Create a new book.\n");
