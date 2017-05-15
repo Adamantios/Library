@@ -96,16 +96,7 @@ genres readGenre() {
         genre = readIntSafely();
     }
 
-    switch (genre) {
-        case 1:
-            return FICTION;
-        case 2:
-            return SCIENTIFIC;
-        case 3:
-            return POLITICS;
-        default:
-            return FICTION;
-    }
+    return intToGenre(genre);
 }
 
 const char *promptReadDiscardEmpty(char *message, char *buffer) {

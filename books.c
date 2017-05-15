@@ -68,6 +68,19 @@ void print(book b) {
     printReviews(b.reviews);
 }
 
+genres intToGenre(int genre) {
+    switch (genre) {
+        case 1:
+            return FICTION;
+        case 2:
+            return SCIENTIFIC;
+        case 3:
+            return POLITICS;
+        default:
+            return FICTION;
+    }
+}
+
 list load(char *filename) {
 //    TODO correct function
     FILE *file = fopen(filename, "rb");
@@ -82,11 +95,20 @@ list load(char *filename) {
             exit(1);
         }
 
-        while (!feof(file)) {
-            fread(newBook, sizeof(book), 1, file);
-            addBook(*newBook, bList);
+        char buffer[256];
+        int i = 0;
+
+        /* Read file line by line */
+        while (fgets(buffer, 255, file)) {
+            strcpy(newBook[i].author, strtok(buffer, " "));
+            strcpy(newBook[i].title, strtok(buffer, " "));
+            newBook[i].genre = intToGenre(atoi(strtok(buffer, " ")));
+            newBook[i].id = atoi(strtok(buffer, " "));
+
+            i++;
         }
 
+        addBook(*newBook, bList);
         fclose(file);
     }
 
@@ -98,10 +120,20 @@ void save(char *filename, list bList) {
     FILE *file = fopen(filename, "wb");
 
     if (file != NULL) {
-        for (int i = 0; i < bList->size; ++i)
-            fwrite(&bList[i], sizeof(book), 1, file);
+        for (int i = 0; i < bList->size; ++i) {
+            fprintf(file, "%s %s %d %d",
+                    bList[i].head->book.author,
+                    bList[i].head->book.title,
+                    bList[i].head->book.genre,
+                    bList[i].head->book.id);
 
-        fwrite(&bList, sizeof(book), 1, file);
+            for (int j = 0; j < MAXREVIEWS; ++j) {
+                fprintf(file, "%s\n", bList[i].head->book.reviews[j]);
+            }
+
+            fprintf(file, "\n");
+        }
+
         fclose(file);
     } else
         printf("An error occurred while trying to save your books at %s!", filename);

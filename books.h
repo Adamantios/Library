@@ -41,6 +41,8 @@ void printMenu();
 
 void print(book b);
 
+genres intToGenre(int genre);
+
 list load(char *filename);
 
 void save(char *filename, list bList);
