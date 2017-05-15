@@ -172,6 +172,7 @@ int deleteBook(book b, list bList) {
     if (currentBook != NULL) {
         previousBook->next = currentBook->next;
         free(currentBook);
+        bList->size--;
         return 0;
     }
 
