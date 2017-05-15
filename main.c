@@ -30,14 +30,7 @@ int readIntSafely() {
 }
 
 const char *readStringSafely() {
-    static char input[MAXSTRING + 1];
-
-    // in case of failure print an error message and exit with error code 1.
-    if (input == NULL) {
-        fprintf(stderr, "Unable to allocate memory for your input.\n");
-        exit(1);
-    }
-
+    static char input[MAXSTRING] = {'\0'};
     int c;
     int input_length = 0;
     int warningFlag = 0;
@@ -116,12 +109,12 @@ genres readGenre() {
 
 const char *promptReadDiscardEmpty(char *message) {
     printf("%s", message);
-    const char *result;
-    result = readStringSafely();
+    static char result[MAXSTRING] = {'\0'};
+    strcpy(result, readStringSafely());
 
     while (result[0] == '\0') {
         printf("%s", message);
-        result = readStringSafely();
+        strcpy(result, readStringSafely());
     }
 
     return result;
@@ -138,6 +131,9 @@ void executeCommands(char *filename, list bList, book *book) {
         command = readIntSafely();
     }
 
+    int reviewsWritten;
+    char reviews[MAXREVIEWS][MAXSTRING];
+
     // execute the user's command.
     switch (command) {
         case 1:
@@ -147,8 +143,11 @@ void executeCommands(char *filename, list bList, book *book) {
 
             book->genre = readGenre();
 
-            int reviewsWritten = 0;
-            char reviews[MAXREVIEWS][MAXSTRING] = {'\0'};
+            reviewsWritten = 0;
+
+            for (int i = 0; i < MAXREVIEWS; ++i)
+                for (int j = 0; j < MAXSTRING; ++j)
+                    reviews[i][j] = '\0';
 
             while (reviewsWritten < MAXREVIEWS) {
                 strcpy(reviews[reviewsWritten++], promptReadDiscardEmpty("Please write a review:\n    - "));
@@ -225,9 +224,12 @@ void executeCommands(char *filename, list bList, book *book) {
             if (yesOrNo()) {
                 reviewsWritten = 0;
 
+                for (int i = 0; i < MAXREVIEWS; ++i)
+                    for (int j = 0; j < MAXSTRING; ++j)
+                        reviews[i][j] = '\0';
+
                 while (reviewsWritten < MAXREVIEWS) {
-                    strcpy(book->reviews[reviewsWritten++],
-                           promptReadDiscardEmpty("Please write a review:\n    - "));
+                    strcpy(reviews[reviewsWritten++], promptReadDiscardEmpty("Please write a review:\n    - "));
 
                     if (reviewsWritten < MAXREVIEWS) {
                         printf("Would you like to write another review?\n");
@@ -236,6 +238,8 @@ void executeCommands(char *filename, list bList, book *book) {
                             break;
                     }
                 }
+
+                memcpy(book->reviews, reviews, sizeof(book->reviews));
             }
 
             // update the book from the list.
