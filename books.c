@@ -190,6 +190,7 @@ int updateBook(book b, list bList) {
         currentBook = currentBook->next;
 
     if (currentBook != NULL) {
+        // TODO pass one by one the values.
         currentBook->book = b;
         return 0;
     } else
