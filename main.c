@@ -29,8 +29,8 @@ int readIntSafely() {
     return i;
 }
 
-char *readStringSafely(int limitation) {
-    char *input = malloc(sizeof(char) * limitation);
+char *readStringSafely() {
+    static char input[MAXSTRING + 1];
 
     // in case of failure print an error message and exit with error code 1.
     if (input == NULL) {
@@ -44,8 +44,8 @@ char *readStringSafely(int limitation) {
 
     // loop until getchar() returns eof or user presses enter.
     while ((c = getchar()) != '\n' && c != EOF) {
-        // check that we don't exceed the limitation - 1 to make room for the null terminator.
-        if (input_length < limitation - 1)
+        // check that we don't exceed the MAXSTRING.
+        if (input_length < MAXSTRING)
             input[input_length++] = (char) c;
         else
             warningFlag = 1;
@@ -55,7 +55,7 @@ char *readStringSafely(int limitation) {
     input[input_length] = '\0';
 
     if (warningFlag)
-        printf("- You have exceeded the maximum string size limitations! (%d letters)\n", limitation);
+        printf("- You have exceeded the maximum string size limitations! (%d letters)\n", MAXSTRING);
 
     return input;
 }
@@ -117,14 +117,14 @@ genres readGenre() {
     }
 }
 
-const char *promptReadDiscardEmpty(char *message, int limitation) {
+const char *promptReadDiscardEmpty(char *message) {
     printf("%s", message);
     const char *result;
-    result = readStringSafely(limitation);
+    result = readStringSafely();
 
     while (result[0] == '\0') {
         printf("%s", message);
-        result = readStringSafely(limitation);
+        result = readStringSafely();
     }
 
     return result;
@@ -157,8 +157,8 @@ void executeCommands(char *filename, list bList) {
     switch (command) {
         case 1:
             // ask for the new book's information.
-            strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", MAXSTRING));
-            strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", MAXSTRING));
+            strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: "));
+            strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: "));
 
             book->genre = readGenre();
 
@@ -166,7 +166,7 @@ void executeCommands(char *filename, list bList) {
 
             while (reviewsWritten < MAXREVIEWS) {
                 strcpy(book->reviews[reviewsWritten++],
-                       promptReadDiscardEmpty("Please write a review:\n    - ", MAXSTRING));
+                       promptReadDiscardEmpty("Please write a review:\n    - "));
 
                 if (reviewsWritten < MAXREVIEWS) {
                     printf("Would you like to write another review?\n");
@@ -224,11 +224,11 @@ void executeCommands(char *filename, list bList) {
             // ask for the new book's information.
             printf("Would you like to update the book's author?\n");
             if (yesOrNo())
-                strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", MAXSTRING));
+                strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: "));
 
             printf("Would you like to update the book's title?\n");
             if (yesOrNo())
-                strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", MAXSTRING));
+                strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: "));
 
             printf("Would you like to update the book's genre?\n");
             if (yesOrNo())
@@ -240,7 +240,7 @@ void executeCommands(char *filename, list bList) {
 
                 while (reviewsWritten < MAXREVIEWS) {
                     strcpy(book->reviews[reviewsWritten++],
-                           promptReadDiscardEmpty("Please write a review:\n    - ", MAXSTRING));
+                           promptReadDiscardEmpty("Please write a review:\n    - "));
 
                     if (reviewsWritten < MAXREVIEWS) {
                         printf("Would you like to write another review?\n");
