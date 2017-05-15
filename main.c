@@ -85,7 +85,6 @@ int yesOrNo() {
     return choice == 'Y' ? 1 : 0;
 }
 
-// TODO correct by using the read int safely function.
 genres readGenre() {
     printf("Available Genres:\n");
     printf("1: Fiction\n");
@@ -94,11 +93,11 @@ genres readGenre() {
     printf("Please choose one of the available genres for the book, by inserting it's number: ");
 
     int genre;
-    genre = atoi(readUserInput(MAXSTRING));
+    genre = readIntSafely();
 
     while (genre < 1 || genre > 3) {
         printf("Unknown genre!\nPlease try inserting one of the available genres: ");
-        genre = atoi(readUserInput(MAXSTRING));
+        genre = readIntSafely();
     }
 
     switch (genre) {
