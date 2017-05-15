@@ -29,7 +29,7 @@ int readIntSafely() {
     return i;
 }
 
-char *readStringSafely() {
+const char *readStringSafely() {
     static char input[MAXSTRING + 1];
 
     // in case of failure print an error message and exit with error code 1.
