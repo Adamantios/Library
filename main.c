@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include "books.h"
 
-// TODO add exit to all mallocs if not successful.
 // TODO correct update and delete.
-
 void showMenu() {
     printf("\nAvailable commands:\n");
     printf("1: Create a new book.\n");
