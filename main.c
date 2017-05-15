@@ -153,13 +153,6 @@ void executeCommands(char *filename, list bList) {
         exit(1);
     }
 
-    // initialize reviews table
-    for (int i = 0; i < MAXREVIEWS; ++i) {
-        for (int j = 0; j < MAXSTRING; ++j) {
-            book->reviews[i][j] = '\0';
-        }
-    }
-
     // execute the user's command.
     switch (command) {
         case 1:
