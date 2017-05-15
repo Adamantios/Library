@@ -161,7 +161,7 @@ book findBook(book b, list bList) {
 }
 
 int deleteBook(book b, list bList) {
-    node *previousBook = bList->head;
+    node *previousBook = NULL;
     node *currentBook = bList->head;
 
     while (currentBook != NULL && currentBook->book.id != b.id) {
@@ -170,7 +170,11 @@ int deleteBook(book b, list bList) {
     }
 
     if (currentBook != NULL) {
-        previousBook->next = currentBook->next;
+        if (previousBook != NULL)
+            previousBook->next = currentBook->next;
+        else
+            bList->head = NULL;
+
         free(currentBook);
         bList->size--;
         return 0;
