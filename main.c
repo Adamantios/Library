@@ -114,11 +114,13 @@ const char *promptReadDiscardEmpty(char *message, char *buffer) {
         buffer[i] = '\0';
 
     printf("%s", message);
-    strcpy(buffer, readStringSafely(buffer));
+
+    // use memmove instead of strcpy to handle overlap.
+    memmove(buffer, readStringSafely(buffer), strlen(buffer));
 
     while (buffer[0] == '\0') {
         printf("%s", message);
-        strcpy(buffer, readStringSafely(buffer));
+        memmove(buffer, readStringSafely(buffer), strlen(buffer));
     }
 
     return buffer;
