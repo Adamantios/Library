@@ -31,7 +31,7 @@ int readIntSafely() {
     return i;
 }
 
-char *readUserInput(int limitation) {
+char *readStringSafely(int limitation) {
     char *input = malloc(sizeof(char) * limitation);
     int c;
     int input_length = 0;
@@ -134,10 +134,10 @@ void executeCommands(char *filename, list bList) {
 
             // ask for the new book's information.
             printf("Please give an Author name: ");
-            strcpy(book->author, readUserInput(MAXSTRING));
+            strcpy(book->author, readStringSafely(MAXSTRING));
 
             printf("Please give a new title for the book: ");
-            strcpy(book->title, readUserInput(MAXSTRING));
+            strcpy(book->title, readStringSafely(MAXSTRING));
 
             book->genre = readGenre();
 
@@ -145,7 +145,7 @@ void executeCommands(char *filename, list bList) {
 
             while (reviewsWritten < MAXREVIEWS) {
                 printf("Please write a review:\n    - ");
-                strcpy(book->reviews[reviewsWritten++], readUserInput(MAXSTRING));
+                strcpy(book->reviews[reviewsWritten++], readStringSafely(MAXSTRING));
 
                 if (reviewsWritten < MAXREVIEWS) {
                     printf("Would you like to write another review?\n");
@@ -214,13 +214,13 @@ void executeCommands(char *filename, list bList) {
             printf("Would you like to update the book's author?\n");
             if (yesOrNo()) {
                 printf("Please give a new Author name: ");
-                strcpy(book->author, readUserInput(MAXSTRING));
+                strcpy(book->author, readStringSafely(MAXSTRING));
             }
 
             printf("Would you like to update the book's title?\n");
             if (yesOrNo()) {
                 printf("Please give a new title for the book: ");
-                strcpy(book->title, readUserInput(MAXSTRING));
+                strcpy(book->title, readStringSafely(MAXSTRING));
             }
 
             printf("Would you like to update the book's genre?\n");
@@ -233,7 +233,7 @@ void executeCommands(char *filename, list bList) {
 
                 while (reviewsWritten < MAXREVIEWS) {
                     printf("Please write a review:\n    - ");
-                    strcpy(book->reviews[reviewsWritten++], readUserInput(MAXSTRING));
+                    strcpy(book->reviews[reviewsWritten++], readStringSafely(MAXSTRING));
 
                     if (reviewsWritten < MAXREVIEWS) {
                         printf("Would you like to write another review?\n");
