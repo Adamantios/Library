@@ -165,8 +165,8 @@ void executeCommands(char *filename, list bList) {
             int reviewsWritten = 0;
 
             while (reviewsWritten < MAXREVIEWS) {
-                printf("Please write a review, or press enter to continue:\n    - ");
-                strcpy(book->reviews[reviewsWritten++], readStringSafely(MAXSTRING));
+                strcpy(book->reviews[reviewsWritten++],
+                       promptReadDiscardEmpty("Please write a review:\n    - ", MAXSTRING));
 
                 if (reviewsWritten < MAXREVIEWS) {
                     printf("Would you like to write another review?\n");
@@ -239,8 +239,8 @@ void executeCommands(char *filename, list bList) {
                 reviewsWritten = 0;
 
                 while (reviewsWritten < MAXREVIEWS) {
-                    printf("Please write a review, or press enter to continue:\n    - ");
-                    strcpy(book->reviews[reviewsWritten++], readStringSafely(MAXSTRING));
+                    strcpy(book->reviews[reviewsWritten++],
+                           promptReadDiscardEmpty("Please write a review:\n    - ", MAXSTRING));
 
                     if (reviewsWritten < MAXREVIEWS) {
                         printf("Would you like to write another review?\n");
