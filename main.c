@@ -15,7 +15,7 @@ void showMenu() {
 }
 
 int readIntSafely() {
-    int i;
+    int i = 0;
     int result = scanf("%d", &i);
 
     // if an error occurred return 0.
