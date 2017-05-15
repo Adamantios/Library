@@ -127,7 +127,7 @@ const char *promptReadDiscardEmpty(char *message) {
     return result;
 }
 
-void executeCommands(char *filename, list bList) {
+void executeCommands(char *filename, list bList, book *book) {
     showMenu();
 
     // read the user's command, until it is valid.
@@ -136,18 +136,6 @@ void executeCommands(char *filename, list bList) {
     while (command < 1 || command > 7) {
         printf("Unknown command!\nPlease try inserting one of the available numbers: ");
         command = readIntSafely();
-    }
-
-    // declare a book for the commands.
-    book *book;
-
-    // allocate memory for the book.
-    book = malloc(sizeof(book));
-
-    // in case of failure print an error message and exit with error code 1.
-    if (book == NULL) {
-        fprintf(stderr, "Unable to allocate memory for the program.\n");
-        exit(1);
     }
 
     // execute the user's command.
@@ -288,7 +276,7 @@ void executeCommands(char *filename, list bList) {
             break;
     }
 
-    executeCommands(filename, bList);
+    executeCommands(filename, bList, book);
 }
 
 void startLibraryApp(char *filename) {
@@ -297,7 +285,20 @@ void startLibraryApp(char *filename) {
 
     printf("------------------------------------------------\n\n");
     printf("------------ Welcome To HUA Library ------------\n");
-    executeCommands(filename, bList);
+
+    // declare and allocate memory for a book to be used in the commands.
+    book *book = malloc(sizeof(book));
+
+    // in case of failure print an error message and exit with error code 1.
+    if (book == NULL) {
+        fprintf(stderr, "Unable to allocate memory for the program.\n");
+        exit(1);
+    }
+
+    executeCommands(filename, bList, book);
+
+    // free the allocated memory for the book.
+    free(book);
 }
 
 int main(int argc, char *argv[]) {
