@@ -127,9 +127,9 @@ void executeCommands(char *filename, list bList, book *book) {
         case 1:
             // ask for the new book's information.
             promptReadDiscardEmpty("Please give an Author name: ", buffer);
-            strcpy(book->author, buffer);
+            strncpy(book->author, buffer, MAXSTRING);
             promptReadDiscardEmpty("Please give a new title for the book: ", buffer);
-            strcpy(book->title, buffer);
+            strncpy(book->title, buffer, MAXSTRING);
 
             book->genre = readGenre();
 
@@ -141,7 +141,7 @@ void executeCommands(char *filename, list bList, book *book) {
 
             while (reviewsWritten < MAXREVIEWS) {
                 promptReadDiscardEmpty("Please write a review:\n    - ", buffer);
-                strcpy(reviews[reviewsWritten++], buffer);
+                strncpy(reviews[reviewsWritten++], buffer, MAXSTRING);
 
                 if (reviewsWritten < MAXREVIEWS) {
                     printf("Would you like to write another review?\n");
@@ -202,13 +202,13 @@ void executeCommands(char *filename, list bList, book *book) {
             printf("Would you like to update the book's author?\n");
             if (yesOrNo()) {
                 promptReadDiscardEmpty("Please give an Author name: ", buffer);
-                strcpy(book->author, buffer);
+                strncpy(book->author, buffer, MAXSTRING);
             }
 
             printf("Would you like to update the book's title?\n");
             if (yesOrNo()) {
                 promptReadDiscardEmpty("Please give a new title for the book: ", buffer);
-                strcpy(book->title, buffer);
+                strncpy(book->title, buffer, MAXSTRING);
             }
 
             printf("Would you like to update the book's genre?\n");
@@ -225,7 +225,7 @@ void executeCommands(char *filename, list bList, book *book) {
 
                 while (reviewsWritten < MAXREVIEWS) {
                     promptReadDiscardEmpty("Please write a review:\n    - ", buffer);
-                    strcpy(reviews[reviewsWritten++], buffer);
+                    strncpy(reviews[reviewsWritten++], buffer, MAXSTRING);
 
                     if (reviewsWritten < MAXREVIEWS) {
                         printf("Would you like to write another review?\n");
