@@ -83,7 +83,6 @@ genres intToGenre(int genre) {
 }
 
 list load(char *filename) {
-//    TODO correct function
     loadingFileFlag = 1;
     FILE *file = fopen(filename, "rb");
     list bList = create_list();
@@ -97,20 +96,14 @@ list load(char *filename) {
             exit(1);
         }
 
-        char buffer[256];
-        int i = 0;
+        int size;
+        fread(&size, sizeof(int), 1, file);
 
-        /* Read file line by line */
-        while (fgets(buffer, 255, file)) {
-            strcpy(newBook[i].author, strtok(buffer, " "));
-            strcpy(newBook[i].title, strtok(buffer, " "));
-            newBook[i].genre = intToGenre(atoi(strtok(buffer, " ")));
-            newBook[i].id = atoi(strtok(buffer, " "));
-
-            i++;
+        for (int j = 0; j < size; ++j) {
+            fread(newBook, sizeof(book), 1, file);
+            addBook(*newBook, bList);
         }
 
-        addBook(*newBook, bList);
         fclose(file);
     }
 
@@ -123,18 +116,10 @@ void save(char *filename, list bList) {
 
     if (file != NULL) {
         node *current = bList->head;
+        fwrite(&bList->size, sizeof(int), 1, file);
 
         while (current != NULL) {
-            fprintf(file, "%s %s %d %d ",
-                    current->book.author,
-                    current->book.title,
-                    current->book.genre,
-                    current->book.id);
-
-            for (int j = 0; j < MAXREVIEWS; ++j)
-                fprintf(file, "%s\n", current->book.reviews[j]);
-
-            fprintf(file, "\n");
+            fwrite(&current->book, sizeof(book), 1, file);
             current = current->next;
         }
 
