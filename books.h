@@ -31,6 +31,8 @@ typedef bookList *list;
 
 node **bListHead;
 
+int loadingFileFlag;
+
 list create_list();
 
 const char *getGenreString(genres genre);
