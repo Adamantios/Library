@@ -96,10 +96,13 @@ list load(char *filename) {
             exit(1);
         }
 
+        // read the number of the book records.
         int size;
         fread(&size, sizeof(int), 1, file);
 
+        // loop through all the book records.
         for (int j = 0; j < size; ++j) {
+            // read a book record and add it to the book list.
             fread(newBook, sizeof(book), 1, file);
             addBook(*newBook, bList);
         }
@@ -116,10 +119,14 @@ void save(char *filename, list bList) {
     FILE *file = fopen(filename, "wb");
 
     if (file != NULL) {
+        // set the first book as current.
         node *current = bList->head;
+
+        // write the number of the book records at the beginning of the file.
         fwrite(&bList->size, sizeof(int), 1, file);
 
         while (current != NULL) {
+            // write the current book and move to the next.
             fwrite(&current->book, sizeof(book), 1, file);
             current = current->next;
         }
@@ -132,11 +139,11 @@ void save(char *filename, list bList) {
 int findUniqueId(int desiredId) {
     node *current = *bListHead;
 
-    // if the list is empty return the desired id.
+    // if the list is empty return the desired id instantly.
     if (current == NULL)
         return desiredId;
 
-    // go to the next item until the list is empty or an id with the desired id value exists.
+    // go to the next node until the list is empty or a book with the desired id value exists.
     while (current != NULL && current->book.id != desiredId)
         current = current->next;
 
@@ -149,7 +156,8 @@ int findUniqueId(int desiredId) {
 }
 
 int addBook(book b, list bList) {
-    // assign a unique id to the book, if it doesn't have already.
+    // assign a unique id to the book,
+    // except in the case of adding a book from a file, where the book already has an id.
     if (!loadingFileFlag)
         b.id = findUniqueId(INITIAL_ID_VALUE);
 
@@ -162,7 +170,7 @@ int addBook(book b, list bList) {
         exit(1);
     }
 
-    // create the new book.
+    // assign the new book with the book passed and add it to the list.
     newBook->book = b;
     newBook->next = bList->head;
     bList->head = newBook;
@@ -174,9 +182,11 @@ int addBook(book b, list bList) {
 book findBook(book b, list bList) {
     node *currentBook = bList->head;
 
+    // go to the next book node until the list is empty or the book is found.
     while (currentBook != NULL && currentBook->book.id != b.id)
         currentBook = currentBook->next;
 
+    // if the book was found, return it.
     if (currentBook != NULL)
         return currentBook->book;
     else
@@ -187,11 +197,14 @@ int deleteBook(book b, list bList) {
     node *previousBook = NULL;
     node *currentBook = bList->head;
 
+    // go to the next book node and store the previous node too, until the list is empty or the book is found.
     while (currentBook != NULL && currentBook->book.id != b.id) {
         previousBook = currentBook;
         currentBook = currentBook->next;
     }
 
+    // if the book was found and the previous book is not null, point the previous book at the next book.
+    // Otherwise, it means that it was the only book and we have to set the head to NULL.
     if (currentBook != NULL) {
         if (previousBook != NULL)
             previousBook->next = currentBook->next;
@@ -209,9 +222,11 @@ int deleteBook(book b, list bList) {
 int updateBook(book b, list bList) {
     node *currentBook = bList->head;
 
+    // go to the next book node, until the list is empty or the book is found.
     while (currentBook != NULL && currentBook->book.id != b.id)
         currentBook = currentBook->next;
 
+    // if the book was found, update the list.
     if (currentBook != NULL) {
         currentBook->book = b;
         return 0;
@@ -222,9 +237,11 @@ int updateBook(book b, list bList) {
 int bookExists(book b, list bList) {
     node *currentBook = bList->head;
 
+    // go to the next book node, until the list is empty or the book is found.
     while (currentBook != NULL && currentBook->book.id != b.id)
         currentBook = currentBook->next;
 
+    // if the book was found, return 0.
     if (currentBook != NULL)
         return 0;
     else
@@ -235,6 +252,8 @@ void freeBookList() {
     node *tmp;
     node *head = *bListHead;
 
+    // while the list is not null, point the current head to a temporary value,
+    // and move the head at the next book node, before freeing it.
     while (head != NULL) {
         tmp = head;
         head = head->next;

@@ -33,6 +33,7 @@ void readStringSafely(char *buffer) {
     int input_length = 0;
     int warningFlag = 0;
 
+    // initialise buffer.
     for (int i = 0; i < MAXSTRING; ++i)
         buffer[i] = '\0';
 
@@ -45,6 +46,7 @@ void readStringSafely(char *buffer) {
             warningFlag = 1;
     }
 
+    // if the user has exceeded the limits, warn him.
     if (warningFlag)
         printf("- You have exceeded the maximum string size limitations! (%d letters)\n", MAXSTRING);
 }
@@ -101,6 +103,7 @@ void promptReadDiscardEmpty(char *message, char *buffer) {
     printf("%s", message);
     readStringSafely(buffer);
 
+    // if the user didn't type anything, show him the message again and read his input.
     while (buffer[0] == '\0') {
         printf("%s", message);
         readStringSafely(buffer);
@@ -112,7 +115,6 @@ void executeCommands(char *filename, list bList, book *book) {
 
     // read the user's command, until it is valid.
     int command = readIntSafely();
-
     while (command < 1 || command > 7) {
         printf("Unknown command!\nPlease try inserting one of the available numbers: ");
         command = readIntSafely();
@@ -130,11 +132,11 @@ void executeCommands(char *filename, list bList, book *book) {
             strncpy(book->author, buffer, MAXSTRING);
             promptReadDiscardEmpty("Please give a new title for the book: ", buffer);
             strncpy(book->title, buffer, MAXSTRING);
-
             book->genre = readGenre();
 
             reviewsWritten = 0;
 
+            // initialise the reviews.
             for (int i = 0; i < MAXREVIEWS; ++i)
                 for (int j = 0; j < MAXSTRING; ++j)
                     reviews[i][j] = '\0';
@@ -151,6 +153,7 @@ void executeCommands(char *filename, list bList, book *book) {
                 }
             }
 
+            // copy the reviews table at the book's reviews table.
             memcpy(book->reviews, reviews, sizeof(book->reviews));
 
             // add the book to the list.
@@ -219,6 +222,7 @@ void executeCommands(char *filename, list bList, book *book) {
             if (yesOrNo()) {
                 reviewsWritten = 0;
 
+                // initialise the reviews.
                 for (int i = 0; i < MAXREVIEWS; ++i)
                     for (int j = 0; j < MAXSTRING; ++j)
                         reviews[i][j] = '\0';
@@ -235,6 +239,7 @@ void executeCommands(char *filename, list bList, book *book) {
                     }
                 }
 
+                // copy the reviews table at the book's reviews table.
                 memcpy(book->reviews, reviews, sizeof(book->reviews));
             }
 
