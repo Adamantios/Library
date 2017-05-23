@@ -83,6 +83,7 @@ genres intToGenre(int genre) {
 
 list load(char *filename) {
 //    TODO correct function
+    loadingFileFlag = 1;
     FILE *file = fopen(filename, "rb");
     list bList = create_list();
 
@@ -112,6 +113,7 @@ list load(char *filename) {
         fclose(file);
     }
 
+    loadingFileFlag = 0;
     return bList;
 }
 
@@ -160,7 +162,7 @@ int findUniqueId(int desiredId) {
 
 int addBook(book b, list bList) {
     // assign a unique id to the book, if it doesn't have already.
-    if (b.id == NULL)
+    if (!loadingFileFlag)
         b.id = findUniqueId(INITIAL_ID_VALUE);
 
     // allocate memory for the new book.
