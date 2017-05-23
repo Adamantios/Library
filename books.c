@@ -46,7 +46,7 @@ void printReviews(char reviews[MAXREVIEWS][MAXSTRING]) {
     }
 
     if (i == 0)
-        printf("There are no reviews currently for this book.\n");
+        printf("     There are no reviews currently for this book.\n");
 }
 
 void printMenu() {
@@ -64,7 +64,8 @@ void printMenu() {
 }
 
 void print(book b) {
-    printf("Author: %s\nTitle: %s\nGenre: %s\nId: %d\n", b.author, b.title, getGenreString(b.genre), b.id);
+    printf("%-14s%s\n%-14s%s\n%-14s%s\n%-14s%d\n",
+           "Author: ", b.author, "Title: ", b.title, "Genre: ", getGenreString(b.genre), "Id: ", b.id);
     printReviews(b.reviews);
 }
 
