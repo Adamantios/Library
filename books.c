@@ -253,4 +253,6 @@ void freeBookList() {
         head = head->next;
         free(tmp);
     }
+
+    free(bListHead);
 }
