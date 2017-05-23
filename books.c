@@ -121,7 +121,7 @@ void save(char *filename, list bList) {
 
     if (file != NULL) {
         for (int i = 0; i < bList->size; ++i) {
-            fprintf(file, "%s %s %d %d",
+            fprintf(file, "%s %s %d %d ",
                     bList[i].head->book.author,
                     bList[i].head->book.title,
                     bList[i].head->book.genre,
