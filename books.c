@@ -243,3 +243,14 @@ int bookExists(book b, list bList) {
     else
         return 1;
 }
+
+void freeBookList() {
+    node *tmp;
+    node *head = *bListHead;
+
+    while (head != NULL) {
+        tmp = head;
+        head = head->next;
+        free(tmp);
+    }
+}

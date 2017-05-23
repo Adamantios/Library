@@ -61,4 +61,6 @@ int updateBook(book b, list bList);
 
 int bookExists(book b, list bList);
 
+void freeBookList();
+
 #endif //LIBRARY_BOOKS_H
