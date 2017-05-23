@@ -159,8 +159,9 @@ int findUniqueId(int desiredId) {
 }
 
 int addBook(book b, list bList) {
-    // assign a unique id to the book.
-    b.id = findUniqueId(INITIAL_ID_VALUE);
+    // assign a unique id to the book, if it doesn't have already.
+    if (b.id == NULL)
+        b.id = findUniqueId(INITIAL_ID_VALUE);
 
     // allocate memory for the new book.
     node *newBook = malloc(sizeof *newBook);
