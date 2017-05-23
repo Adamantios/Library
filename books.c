@@ -104,6 +104,7 @@ list load(char *filename) {
             addBook(*newBook, bList);
         }
 
+        free(newBook);
         fclose(file);
     }
 
