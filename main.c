@@ -28,7 +28,7 @@ int readIntSafely() {
     return i;
 }
 
-const char *readStringSafely(char *buffer) {
+void readStringSafely(char *buffer) {
     int c;
     int input_length = 0;
     int warningFlag = 0;
@@ -38,8 +38,8 @@ const char *readStringSafely(char *buffer) {
 
     // loop until getchar() returns eof or user presses enter.
     while ((c = getchar()) != '\n' && c != EOF) {
-        // check that we don't exceed the MAXSTRING.
-        if (input_length < MAXSTRING)
+        // check that we don't exceed the MAXSTRING - 1, because we need space for the null termination.
+        if (input_length < MAXSTRING - 1)
             buffer[input_length++] = (char) c;
         else
             warningFlag = 1;
@@ -47,8 +47,6 @@ const char *readStringSafely(char *buffer) {
 
     if (warningFlag)
         printf("- You have exceeded the maximum string size limitations! (%d letters)\n", MAXSTRING);
-
-    return buffer;
 }
 
 char readCharSafely() {
@@ -99,21 +97,14 @@ genres readGenre() {
     return intToGenre(genre);
 }
 
-const char *promptReadDiscardEmpty(char *message, char *buffer) {
-    for (int i = 0; i < MAXSTRING; ++i)
-        buffer[i] = '\0';
-
+void promptReadDiscardEmpty(char *message, char *buffer) {
     printf("%s", message);
-
-    // use memmove instead of strcpy to handle overlap.
-    memmove(buffer, readStringSafely(buffer), strlen(buffer));
+    readStringSafely(buffer);
 
     while (buffer[0] == '\0') {
         printf("%s", message);
-        memmove(buffer, readStringSafely(buffer), strlen(buffer));
+        readStringSafely(buffer);
     }
-
-    return buffer;
 }
 
 void executeCommands(char *filename, list bList, book *book) {
@@ -129,14 +120,16 @@ void executeCommands(char *filename, list bList, book *book) {
 
     int reviewsWritten;
     char reviews[MAXREVIEWS][MAXSTRING];
-    char buffer[MAXSTRING];
+    char buffer[MAXSTRING + 1];
 
     // execute the user's command.
     switch (command) {
         case 1:
             // ask for the new book's information.
-            strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", buffer));
-            strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", buffer));
+            promptReadDiscardEmpty("Please give an Author name: ", buffer);
+            strcpy(book->author, buffer);
+            promptReadDiscardEmpty("Please give a new title for the book: ", buffer);
+            strcpy(book->title, buffer);
 
             book->genre = readGenre();
 
@@ -147,7 +140,8 @@ void executeCommands(char *filename, list bList, book *book) {
                     reviews[i][j] = '\0';
 
             while (reviewsWritten < MAXREVIEWS) {
-                strcpy(reviews[reviewsWritten++], promptReadDiscardEmpty("Please write a review:\n    - ", buffer));
+                promptReadDiscardEmpty("Please write a review:\n    - ", buffer);
+                strcpy(reviews[reviewsWritten++], buffer);
 
                 if (reviewsWritten < MAXREVIEWS) {
                     printf("Would you like to write another review?\n");
@@ -206,12 +200,16 @@ void executeCommands(char *filename, list bList, book *book) {
 
             // ask for the new book's information.
             printf("Would you like to update the book's author?\n");
-            if (yesOrNo())
-                strcpy(book->author, promptReadDiscardEmpty("Please give an Author name: ", buffer));
+            if (yesOrNo()) {
+                promptReadDiscardEmpty("Please give an Author name: ", buffer);
+                strcpy(book->author, buffer);
+            }
 
             printf("Would you like to update the book's title?\n");
-            if (yesOrNo())
-                strcpy(book->title, promptReadDiscardEmpty("Please give a new title for the book: ", buffer));
+            if (yesOrNo()) {
+                promptReadDiscardEmpty("Please give a new title for the book: ", buffer);
+                strcpy(book->title, buffer);
+            }
 
             printf("Would you like to update the book's genre?\n");
             if (yesOrNo())
@@ -226,7 +224,8 @@ void executeCommands(char *filename, list bList, book *book) {
                         reviews[i][j] = '\0';
 
                 while (reviewsWritten < MAXREVIEWS) {
-                    strcpy(reviews[reviewsWritten++], promptReadDiscardEmpty("Please write a review:\n    - ", buffer));
+                    promptReadDiscardEmpty("Please write a review:\n    - ", buffer);
+                    strcpy(reviews[reviewsWritten++], buffer);
 
                     if (reviewsWritten < MAXREVIEWS) {
                         printf("Would you like to write another review?\n");
@@ -273,7 +272,7 @@ void executeCommands(char *filename, list bList, book *book) {
             break;
         case 6:
             printf("\n------- Thank you for using HUA Library! -------\n\n");
-            printf("------------------------------------------------");
+            printf("------------------------------------------------\n");
             return;
         default:
             break;
@@ -300,8 +299,9 @@ void startLibraryApp(char *filename) {
 
     executeCommands(filename, bList, book);
 
-    // free the allocated memory for the book.
+    // free the allocated memory for the book and the book list.
     free(book);
+    freeBookList();
 }
 
 int main(int argc, char *argv[]) {
