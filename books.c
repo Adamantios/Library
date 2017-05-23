@@ -118,22 +118,23 @@ list load(char *filename) {
 }
 
 void save(char *filename, list bList) {
-    //    TODO correct function
     FILE *file = fopen(filename, "wb");
 
     if (file != NULL) {
-        for (int i = 0; i < bList->size; ++i) {
-            fprintf(file, "%s %s %d %d ",
-                    bList[i].head->book.author,
-                    bList[i].head->book.title,
-                    bList[i].head->book.genre,
-                    bList[i].head->book.id);
+        node *current = bList->head;
 
-            for (int j = 0; j < MAXREVIEWS; ++j) {
-                fprintf(file, "%s\n", bList[i].head->book.reviews[j]);
-            }
+        while (current != NULL) {
+            fprintf(file, "%s %s %d %d ",
+                    current->book.author,
+                    current->book.title,
+                    current->book.genre,
+                    current->book.id);
+
+            for (int j = 0; j < MAXREVIEWS; ++j)
+                fprintf(file, "%s\n", current->book.reviews[j]);
 
             fprintf(file, "\n");
+            current = current->next;
         }
 
         fclose(file);
