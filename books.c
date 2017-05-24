@@ -194,26 +194,32 @@ book findBook(book b, list bList) {
 }
 
 int deleteBook(book b, list bList) {
-    node *previousBook = NULL;
-    node *currentBook = bList->head;
-
-    // go to the next book node and store the previous node too, until the list is empty or the book is found.
-    while (currentBook != NULL && currentBook->book.id != b.id) {
-        previousBook = currentBook;
-        currentBook = currentBook->next;
+    if (bList->size == 1) {
+        if (b.id == bList->head->book.id) {
+            node *tmp = bList->head;
+            bList->head = bList->head->next;
+            free(tmp);
+            --bList->size;
+            return 0;
+        } else
+            return 1;
     }
 
-    // if the book was found and the previous book is not null, point the previous book at the next book.
-    // Otherwise, it means that it was the only book and we have to set the head to NULL.
-    if (currentBook != NULL) {
-        if (previousBook != NULL)
-            previousBook->next = currentBook->next;
-        else
-            bList->head = NULL;
+    node *current = bList->head->next;
+    node *previous = bList->head;
 
-        free(currentBook);
-        bList->size--;
-        return 0;
+    while (current != NULL && previous != NULL) {
+
+        if (b.id == current->book.id) {
+            node *temp = current;
+            previous->next = current->next;
+            free(temp);
+            --bList->size;
+            return 0;
+        }
+
+        previous = current;
+        current = current->next;
     }
 
     return 1;
