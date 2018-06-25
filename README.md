@@ -1,5 +1,5 @@
 # Library
-A terminal book library written in C.
+A terminal book library written in C, as a college project.
 
 ## Features
 - Create a new book.
